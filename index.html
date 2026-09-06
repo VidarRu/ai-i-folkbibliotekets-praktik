@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI i folkbibliotekets praktik – AI Folkbildaren</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f5f0e8;
+    --accent: #c0392b;
+    --muted: #6b6560;
+    --rule: #d4cec4;
+    --highlight: #f9e4b7;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 27px,
+        rgba(180,170,155,0.18) 27px,
+        rgba(180,170,155,0.18) 28px
+      );
+  }
+
+  /* ── STICKY TAB NAV ── */
+  nav.tab-nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--ink);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  }
+
+  .tab-nav-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0 1.5rem;
+  }
+
+  .tab-nav-inner::-webkit-scrollbar { display: none; }
+
+  nav.tab-nav a {
+    color: rgba(245,240,232,0.75);
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.95rem 1rem;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  nav.tab-nav a:hover {
+    color: var(--paper);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+  }
+
+  section {
+    padding-top: 3rem;
+    margin-top: 1rem;
+    scroll-margin-top: 3.5rem;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+
+  h1.hero {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.4rem, 6vw, 3.8rem);
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+
+  h1.hero em { font-style: italic; color: var(--accent); }
+
+  h1.section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4.5vw, 2.8rem);
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  h1.section-title em { font-style: italic; color: var(--accent); }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .section-sub {
+    font-size: 0.95rem;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1.5px solid var(--rule);
+  }
+
+  .welcome {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--ink);
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+  }
+
+  .welcome strong { font-weight: 600; }
+
+  .subhead {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem;
+    color: var(--ink);
+    margin: 2.2rem 0 1.1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1.5px solid var(--rule);
+  }
+
+  .subhead:first-of-type { margin-top: 0; }
+
+  /* ── INDEX CARD ── */
+  .index {
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    padding: 1.8rem 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .index-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .index-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .index-list li { display: flex; align-items: baseline; gap: 0.8rem; }
+
+  .index-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--rule);
+    min-width: 1.4rem;
+  }
+
+  .index-list a {
+    font-size: 0.95rem;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid var(--rule);
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .index-list a:hover { color: var(--accent); border-color: var(--accent); }
+
+  .index-list .index-desc { font-size: 0.82rem; color: var(--muted); font-weight: 300; }
+
+  /* ── DIVIDERS ── */
+  hr.rule { border: none; border-top: 2px solid var(--ink); margin: 3rem 0 0; }
+  hr.soft { border: none; border-top: 1px solid var(--rule); margin: 2rem 0; }
+
+  /* ── SCENARIO BOX ── */
+  .scenario-box {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 4px;
+    padding: 1.8rem 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scenario-box::before {
+    content: '\201C';
+    font-family: 'DM Serif Display', serif;
+    font-size: 8rem;
+    color: rgba(255,255,255,0.06);
+    position: absolute;
+    top: -1.5rem;
+    left: 1rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .scenario-box .scenario-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+  }
+
+  .scenario-box p { font-size: 1.05rem; line-height: 1.7; font-weight: 300; position: relative; }
+
+  /* ── CALLOUT (disclaimers, cross-links) ── */
+  .callout {
+    margin: 0 0 1.5rem;
+    background: var(--highlight);
+    border-left: 3px solid var(--accent);
+    padding: 0.8rem 1.1rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ink);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .callout strong { font-weight: 600; }
+  .callout a { color: var(--accent); font-weight: 500; }
+
+  /* ── THEORY LIST ── */
+  .theory-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 2.2rem;
+  }
+
+  .theory-list li {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--ink);
+    font-weight: 300;
+    padding-left: 1.3rem;
+    position: relative;
+  }
+
+  .theory-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+
+  .theory-list strong { font-weight: 600; }
+  .theory-list a { color: var(--accent); }
+
+  /* ── TASKS ── */
+  .tasks { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
+
+  .task { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; align-items: start; }
+
+  .task-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem;
+    color: var(--rule);
+    line-height: 1;
+    text-align: right;
+    padding-top: 0.1rem;
+  }
+
+  .task-body h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--ink); }
+  .task-body p { font-size: 0.92rem; line-height: 1.65; color: var(--muted); font-weight: 300; }
+
+  .prompt-example {
+    margin-top: 0.7rem;
+    background: var(--highlight);
+    border-left: 3px solid var(--accent);
+    padding: 0.6rem 0.9rem;
+    font-size: 0.88rem;
+    font-style: italic;
+    color: var(--ink);
+    border-radius: 0 3px 3px 0;
+  }
+
+  /* ── MINI STEPS (sub-steps inside a task) ── */
+  .steps-mini { list-style: none; margin-top: 0.7rem; display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .steps-mini li {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+    padding-left: 1.4rem;
+    position: relative;
+    font-weight: 300;
+  }
+
+  .steps-mini li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 0.82rem; }
+
+  .steps-mini .step-tag { color: var(--ink); font-weight: 600; }
+
+  /* ── OPTIONAL BADGE ── */
+  .optional-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--rule);
+    padding: 0.15rem 0.55rem;
+    border-radius: 20px;
+    margin-left: 0.6rem;
+    vertical-align: middle;
+  }
+
+  /* ── TOOLS ROW ── */
+  .tools-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+
+  .tool-card { border: 1.5px solid var(--rule); border-radius: 4px; padding: 1.2rem; }
+  .tool-card .tool-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; }
+  .tool-card .tool-url { font-size: 0.78rem; color: var(--accent); font-weight: 500; margin-bottom: 0.6rem; font-family: monospace; }
+  .tool-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.5; font-weight: 300; }
+
+  /* ── PRINCIPLE CARDS (Om kursen) ── */
+  .principle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+
+  .principle-card {
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    padding: 1.2rem 1.4rem;
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    background: rgba(255,255,255,0.4);
+  }
+
+  .principle-icon { font-size: 1.4rem; line-height: 1.2; flex-shrink: 0; }
+  .principle-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; color: var(--ink); }
+  .principle-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.5; font-weight: 300; }
+
+  /* ── REFLECTION ── */
+  .reflection { border-top: 2px solid var(--ink); padding-top: 1.5rem; margin-bottom: 1rem; }
+  .reflection h2 { font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 1rem; }
+  .reflection ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .reflection ul li {
+    font-size: 0.92rem;
+    color: var(--muted);
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .reflection ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+
+  /* ── EVENT CARD (bonus affisch) ── */
+  .event-card { border: 2px solid var(--ink); border-radius: 4px; padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+  .event-card .event-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+
+  /* ── CLASSIFICATION TABLE (MSB) ── */
+  .classification-table { border: 2px solid var(--ink); border-radius: 4px; overflow: hidden; margin-bottom: 2rem; }
+
+  .ct-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.7rem 1.2rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .ct-row { display: grid; grid-template-columns: 6rem 1fr; border-bottom: 1px solid var(--rule); }
+  .ct-row:last-child { border-bottom: none; }
+
+  .ct-level {
+    padding: 1rem;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    border-right: 1px solid var(--rule);
+    background: rgba(255,255,255,0.35);
+    display: flex;
+    align-items: flex-start;
+    color: var(--accent);
+  }
+
+  .ct-body { padding: 0.9rem 1.2rem; }
+  .ct-body strong { display: block; font-size: 0.9rem; font-weight: 600; color: var(--ink); margin-bottom: 0.2rem; }
+  .ct-body p { font-size: 0.85rem; color: var(--muted); line-height: 1.55; }
+
+  /* ── PROGRAM CARDS (bonus) ── */
+  .kategori-label {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.35rem 0.9rem;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 2rem 0 1rem;
+  }
+
+  .program-card:first-of-type + .kategori-label,
+  section#bonus .kategori-label:first-of-type { margin-top: 0.5rem; }
+
+  .program-card {
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .program-card h3 { font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: var(--ink); margin-bottom: 0.3rem; }
+  .program-card .program-desc { font-style: italic; color: var(--muted); font-size: 0.88rem; margin-bottom: 0.8rem; }
+
+  .program-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.8rem; }
+
+  .program-chip {
+    background: var(--highlight);
+    border: 1px solid var(--rule);
+    border-radius: 20px;
+    padding: 0.15rem 0.65rem;
+    font-size: 0.74rem;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .program-card p.program-text { font-size: 0.9rem; color: var(--muted); font-weight: 300; margin-bottom: 0.3rem; }
+
+  /* ── RESOURCES ── */
+  .resource-group { margin-bottom: 2rem; }
+
+  .resource-group h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .resource-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .resource-list li { display: flex; flex-direction: column; gap: 0.15rem; }
+
+  .resource-list a {
+    font-size: 0.95rem;
+    color: var(--accent);
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+
+  .resource-list a:hover { border-color: var(--accent); }
+  .resource-list .res-desc { font-size: 0.82rem; color: var(--muted); font-weight: 300; }
+
+  /* ── BACK TO TOP ── */
+  .back-top {
+    display: inline-block;
+    margin-top: 2rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    transition: color 0.15s;
+  }
+
+  .back-top:hover { color: var(--accent); }
+
+  /* ── FOOTER ── */
+  .footer-contact {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--ink);
+    text-align: center;
+  }
+
+  .footer-contact h4 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; margin-bottom: 0.8rem; color: var(--ink); }
+
+  .footer-contact .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem 1.2rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .footer-contact .contact-links a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--rule); font-weight: 500; }
+  .footer-contact .contact-links a:hover { border-color: var(--accent); }
+
+  .footer-note {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.78rem;
+    color: var(--rule);
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 500px) {
+    .tools-row { grid-template-columns: 1fr; }
+    .principle-grid { grid-template-columns: 1fr; }
+    .ct-row { grid-template-columns: 4.5rem 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="tab-nav">
+  <div class="tab-nav-inner">
+    <a href="#om">Om kursen</a>
+    <a href="#del1">Del 1</a>
+    <a href="#del2">Del 2</a>
+    <a href="#del3">Del 3</a>
+    <a href="#bonus">Bonus</a>
+    <a href="#resurser">Resurser</a>
+  </div>
+</nav>
+
+<div class="page" id="top">
+
+  <!-- ── HERO ── -->
+  <div class="label">AI Folkbildaren · Utbildningsserie i tre delar</div>
+  <h1 class="hero">AI i <em>folkbibliotekets praktik</em></h1>
+  <p class="hero-sub">Resurssida för dig som deltar · hemuppgifter, teori och material mellan tillfällena</p>
+
+  <p class="welcome">
+    Välkommen till kursmaterialet för <strong>AI i folkbibliotekets praktik</strong>! Utbildningen går i tre delar, med ett gemensamt tillfälle för varje och tid att testa själv däremellan. Den här sidan samlar allt du behöver mellan tillfällena – teori att repetera, hemuppgifter att göra i din egen takt, och resurser att fortsätta utforska på egen hand.
+    <br><br>
+    Sidan uppdateras löpande i takt med att utbildningen utvecklas – bokmärk den gärna och kom tillbaka.
+  </p>
+
+  <!-- ── INDEX ── -->
+  <div class="index">
+    <div class="index-title">Innehåll</div>
+    <ul class="index-list">
+      <li>
+        <span class="index-num">1</span>
+        <div>
+          <a href="#om">Om kursen</a>
+          <div class="index-desc">Syfte, upplägg och sex grundprinciper</div>
+        </div>
+      </li>
+      <li>
+        <span class="index-num">2</span>
+        <div>
+          <a href="#del1">Del 1 – Hur AI fungerar &amp; prompting</a>
+          <div class="index-desc">Teori, workshop och hemuppgifter</div>
+        </div>
+      </li>
+      <li>
+        <span class="index-num">3</span>
+        <div>
+          <a href="#del2">Del 2 – Informationssökning &amp; källkritik</a>
+          <div class="index-desc">Teori och hemuppgift</div>
+        </div>
+      </li>
+      <li>
+        <span class="index-num">4</span>
+        <div>
+          <a href="#del3">Del 3 – Organisation &amp; AI-policy</a>
+          <div class="index-desc">Teori, workshop och hemuppgift</div>
+        </div>
+      </li>
+      <li>
+        <span class="index-num">↓</span>
+        <div>
+          <a href="#bonus">Bonus – Programverksamhet</a>
+          <div class="index-desc">Programidéer och frivillig fördjupning</div>
+        </div>
+      </li>
+      <li>
+        <span class="index-num">↓</span>
+        <div>
+          <a href="#resurser">Resurser</a>
+          <div class="index-desc">Artiklar, böcker, poddar och verktyg</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- OM KURSEN                                  -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="rule">
+  <section id="om">
+    <div class="label">Om kursen</div>
+    <h1 class="section-title">Från teori till <em>praktisk färdighet</em></h1>
+    <p class="section-sub">Tre delar · tre tillfällen · testa i egen takt däremellan</p>
+
+    <p class="welcome">
+      Utbildningen är uppdelad i tre delar, med ett tillfälle för varje. Mellan tillfällena finns tid att testa verktygen i din egen vardag – därför samlar den här sidan hemuppgifter och material så du kan gå tillbaka och repetera, eller jobba vidare i din egen takt. Har du frågor, eller vill dela med dig av något kreativt du använt AI till i ditt arbete – hör gärna av dig (kontaktuppgifter i sidfoten).
+    </p>
+
+    <div class="principle-grid">
+      <div class="principle-card">
+        <div class="principle-icon">🤝</div>
+        <div>
+          <h3>AI som stöd, inte ersättare</h3>
+          <p>AI är ett stöd för bibliotekarien – inte en ersättare.</p>
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">🆓</div>
+        <div>
+          <h3>Gratisverktyg räcker långt</h3>
+          <p>Du behöver inte betala för att komma igång.</p>
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">🔍</div>
+        <div>
+          <h3>Källkritiken gäller alltid</h3>
+          <p>Källkritiken gäller i minst lika hög grad när AI är inblandat.</p>
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">💡</div>
+        <div>
+          <h3>Hur ni använder verktygen</h3>
+          <p>Det viktigaste är <strong>hur ni använder verktygen</strong>, inte att "använda AI" i sig.</p>
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">🙋</div>
+        <div>
+          <h3>Individ före organisation</h3>
+          <p>Du ska inte känna dig tvingad att använda AI om du inte vill.</p>
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">⚠️</div>
+        <div>
+          <h3>Tänk på vad du laddar upp</h3>
+          <p>Ladda aldrig upp information som omfattas av GDPR eller som är känslig information för organisationen.</p>
+        </div>
+      </div>
+    </div>
+    <a href="#top" class="back-top">↑ Tillbaka till toppen</a>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- DEL 1                                      -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="rule">
+  <section id="del1">
+    <div class="label">Del 1 · Tillfälle 1</div>
+    <h1 class="section-title">Hur AI fungerar &amp; <em>prompting</em></h1>
+    <p class="section-sub">Grunderna i hur AI fungerar, och hur du styr den med prompting</p>
+
+    <div class="subhead">Teori</div>
+    <ul class="theory-list">
+      <li><strong>AI vs. regelstyrd programvara</strong> – Word-liknelsen: samma input ger inte samma output när AI är inblandad, till skillnad från traditionella, regelstyrda program.</li>
+      <li><strong>Sannolikhet, inte sanning</strong> – AI är världens mest avancerade autocomplete: den förutsäger vad som är ett sannolikt svar, inte vad som är sant.</li>
+      <li><strong>Hallucinationer</strong> är en direkt följd av hur tekniken fungerar – inte ett tillfälligt fel som kommer rättas till, utan en del av hur AI:n genererar text.</li>
+      <li><strong>Promptstrategier</strong> – <strong>strukturerad</strong> (Roll – Uppgift – Kontext – Syfte – Format), <strong>naturlig</strong> (prata som med en kollega, iterera) och <strong>meta</strong> (låt AI:n skapa en återanvändbar prompt åt dig).</li>
+      <li>Vill du fördjupa dig teoretiskt? <a href="https://course.elementsofai.com/se/" target="_blank">Elements of AI</a> är en gratis webbkurs om hur AI fungerar.</li>
+    </ul>
+
+    <div class="subhead">Workshop – Bokjakten</div>
+    <p class="section-sub" style="margin-bottom:1.5rem; padding-bottom:0; border-bottom:none;">Microsoft Copilot · Grupper om 3–4 personer</p>
+
+    <div class="scenario-box">
+      <div class="scenario-label">Mål med övningen</div>
+      <p>Testa hur bra AI egentligen är på att identifiera böcker utifrån vaga beskrivningar – och öva på att formulera prompter med olika grad av specificitet.</p>
+    </div>
+
+    <div class="tasks">
+      <div class="task">
+        <div class="task-num">1</div>
+        <div class="task-body">
+          <h3>Välj vem som börjar</h3>
+          <p>Bestäm i gruppen vem som ska börja som beskrivare. Beskrivaren håller upp sin bok – utan att visa framsidan för de andra i gruppen.</p>
+        </div>
+      </div>
+      <div class="task">
+        <div class="task-num">2</div>
+        <div class="task-body">
+          <h3>Beskriv boken</h3>
+          <p>Beskrivaren berättar om bokens handling, stämning eller tema – utan att nämna titel eller författare.</p>
+          <div class="prompt-example">Exempel: "En ung trollkarl börjar på en skola och får vänner och fiender…"</div>
+        </div>
+      </div>
+      <div class="task">
+        <div class="task-num">3</div>
+        <div class="task-body">
+          <h3>Låt de andra söka i Copilot</h3>
+          <p>De övriga i gruppen försöker hitta rätt bok med hjälp av Copilot. Testa att formulera prompten på olika sätt – vad händer om man är mer eller mindre specifik?</p>
+          <div class="prompt-example">Förslag: "Kan du identifiera vilken bok det här handlar om: …"</div>
+        </div>
+      </div>
+      <div class="task">
+        <div class="task-num">4</div>
+        <div class="task-body">
+          <h3>Byt och fortsätt</h3>
+          <p>Så fort någon gissar rätt byter ni – nästa person tar över som beskrivare med sin bok.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="reflection">
+      <h2>Diskutera i gruppen</h2>
+      <ul>
+        <li>Vilka beskrivningar var svårast för AI:n att identifiera?</li>
+        <li>Vilka prompter fungerade bäst – och varför tror ni det?</li>
+        <li>Vad säger det här om hur AI:n "förstår" innehåll jämfört med en människa?</li>
+        <li>Hur skulle detta kunna användas i mötet med låntagare?</li>
+      </ul>
+    </div>
+
+    <div class="subhead">Demo</div>
+    <p class="welcome" style="margin-bottom: 1.2rem;">Under tillfället visar vi det här tillsammans – ingen deltagaruppgift, men bra att ha sett innan du gör hemuppgifterna:</p>
+    <ul class="theory-list">
+      <li><strong>Textbearbetning</strong> – en dåligt skriven kursbeskrivning som vi korrekturläser, tonlägesjusterar och skriver om tillsammans med Copilot.</li>
+      <li><strong>Agent-genomgång</strong> – en kort visning av hur man bygger en egen Copilot-agent.</li>
+    </ul>
+
+    <div class="subhead">Hemuppgifter</div>
+    <div class="tasks">
+      <div class="task">
+        <div class="task-num">1</div>
+        <div class="task-body">
+          <h3>Prompt-pusslet</h3>
+          <p>Öva på de två strategier vi gick igenom: den strukturerade och den naturliga. Syftet är att testa hur samma grundidé tas emot av AI:n beroende på hur du formulerar dig.</p>
+          <ul class="steps-mini">
+            <li><span class="step-tag">Del A – Strukturerad prompt:</span> Skapa en boktipslista för en specifik målgrupp (t.ex. "lågstadieelever som gillar mysterier"). Prompten ska innehålla: Roll, Uppgift, Kontext, Syfte och Format.</li>
+            <li><span class="step-tag">Del B – Naturlig dialog:</span> Starta en ny chatt. Försök uppnå samma mål genom att "prata" med AI:n som med en kollega. Börja enkelt, ställ följdfrågor och iterera tills du är nöjd.</li>
+            <li><span class="step-tag">Reflektion:</span> Jämför resultaten. Vilken lista blev bäst? Skiljer sig tonläget eller urvalet åt? Vilket arbetssätt föredrar du?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="task">
+        <div class="task-num">2</div>
+        <div class="task-body">
+          <h3>Skrivarassistenten</h3>
+          <p>Använd AI för att effektivisera din kommunikation med en befintlig text (t.ex. ett internt rutindokument, information från er hemsida eller ett programblad).</p>
+          <ul class="steps-mini">
+            <li><span class="step-tag">Steg 1:</span> Ladda upp dokumentet till Copilot och be den kontrollera stavfel och grammatiska fel. Granska svaret – stämmer det?</li>
+            <li><span class="step-tag">Steg 2:</span> Be Copilot skriva om texten riktad mot en specifik målgrupp – t.ex. klarspråk eller anpassad för åldersgruppen 13–18.</li>
+            <li><span class="step-tag">Steg 3:</span> Kombinera minst två kriterier i samma prompt (t.ex. klarspråk + NPF-anpassning, eller klarspråk + seniorer). Jämför med originaltexten: blev resultatet bättre, lika bra eller sämre?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="task">
+        <div class="task-num">3</div>
+        <div class="task-body">
+          <h3>Skapa din första AI-agent</h3>
+          <p>Skapa en personlig agent (Copilot Agent) som motsvarar ett återkommande användningsområde i ditt arbete. Testa den på en riktig arbetsuppgift.</p>
+          <ul class="steps-mini">
+            <li><span class="step-tag">Grupp:</span> Fundera på om ni ska vara en eller två personer – det kan vara enklare att vara två och dela arbetsuppgifter.</li>
+            <li><span class="step-tag">Fokus:</span> Tänk ut ett återkommande användningsområde som involverar textproduktion eller bollplank/reflektion.</li>
+            <li><span class="step-tag">Skapa:</span> Gå in och skapa agenten. Definiera dess roll, syfte och instruktioner.</li>
+            <li><span class="step-tag">Testa:</span> Använd agenten på en av dina riktiga arbetsuppgifter.</li>
+            <li><span class="step-tag">Reflektion:</span> Förkortade agenten arbetsprocessen eller gav den ett nytt perspektiv?</li>
+            <li><span class="step-tag">Dela:</span> Om agenten är användbar för fler – dela den med resten av organisationen.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Frivillig fördjupning:</strong> Vill du gå djupare? Testa Personliga inställningar &amp; minnesfunktioner i Copilot – aktivera Sparat minne och Anpassa instruktioner, och se hur AI:n svarar annorlunda utifrån dina egna inställningar.</div>
+
+    <a href="#top" class="back-top">↑ Tillbaka till toppen</a>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- DEL 2                                      -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="rule">
+  <section id="del2">
+    <div class="label">Del 2 · Tillfälle 2</div>
+    <h1 class="section-title">Informationssökning &amp; <em>källkritik</em></h1>
+    <p class="section-sub">Hur du använder AI för research – utan att tappa källkritiken</p>
+
+    <div class="subhead">Teori</div>
+    <ul class="theory-list">
+      <li><strong>Den pragmatiska beslutsmodellen</strong> (de fyra trappstegen): Vad är syftet? Måste det vara sant? Kan du utvärdera svaret själv? Kan du använda AI för det här?</li>
+      <li><strong>RAG</strong> (hämtar fakta innan den svarar) – som en referensbibliotekarie som går till hyllan först innan hon svarar på en fråga.</li>
+      <li><strong>Deep Research</strong> och omvända kentaurer – du styr researchen, inte AI:n.</li>
+      <li><strong>Du är human in the loop</strong> – ansvaret för det slutgiltiga svaret stannar alltid hos dig, oavsett vilket verktyg som användes.</li>
+      <li><strong>Sju konkreta sökknep:</strong> ställ tydliga frågor, ge kontext &amp; kriterier, ställ följdfrågor, testa en neutral prompt, granska svaret själv, kombinera med traditionell sökning, och utmana din egen informationsbubbla.</li>
+      <li><strong>Faktagranskning i två steg</strong> – låt ett verktyg skriva svaret, och ett annat verktyg kontrollera det.</li>
+    </ul>
+
+    <p class="welcome" style="font-size: 0.92rem; font-style: italic; color: var(--muted); margin-bottom: 2.2rem;">Under tillfället testade vi tillsammans Hallucinationstestet (Perplexity mot Google, på en fritt vald samtidsfråga) – live, i grupp.</p>
+
+    <div class="subhead">Hemuppgift – Föreläsningsförfrågan i disken</div>
+    <p class="section-sub" style="margin-bottom:1.5rem; padding-bottom:0; border-bottom:none;">Copilot + Perplexity eller ChatGPT · ca 20–30 min</p>
+
+    <div class="scenario-box">
+      <div class="scenario-label">Scenario</div>
+      <p>Du sitter i informationsdisken. En låntagare kommer fram och är intresserad av <strong>högerextremism</strong> – hur det högerextrema våldet har utvecklats i Sverige sedan millennieskiftet – och undrar om biblioteket kan arrangera en föreläsningskväll om det. Din uppgift: ta reda på vad som faktiskt gäller/hänt, och hitta en tänkbar föreläsare.</p>
+    </div>
+
+    <div class="callout">Känns ämnet inte bekvämt? Välj då ett eget – till exempel ett lokalhistoriskt ämne, eller ett annat aktuellt samhällsämne som faktiskt dykt upp i disken på sistone.</div>
+
+    <div class="tasks">
+      <div class="task">
+        <div class="task-num">1</div>
+        <div class="task-body">
+          <h3>Sök bakgrundsinformation i båda verktygen</h3>
+          <p>Använd exakt samma prompt i Copilot och i jämförelseverktyget (Perplexity eller ChatGPT). Vad lyfter de fram? Vad utelämnar de? Hur hanterar de ett politiskt känsligt ämne?</p>
+        </div>
+      </div>
+      <div class="task">
+        <div class="task-num">2</div>
+        <div class="task-body">
+          <h3>Hitta en föreläsare</h3>
+          <p>Testa vagt först, sedan mer specifikt – skiljer det sig? Hitta en konkret person eller organisation som skulle kunna hålla en föreläsningskväll om ämnet.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="reflection">
+      <h2>Reflektera (ta med till nästa tillfälle)</h2>
+      <ul>
+        <li>Fick du samma svar i båda verktygen?</li>
+        <li>Vilket kändes mest pålitligt?</li>
+        <li>Skulle du skicka svaret direkt till en kollega, eller behöver du alltid verifiera?</li>
+        <li>Vem bär ansvaret om AI:n har fel?</li>
+      </ul>
+    </div>
+
+    <div class="callout">💡 Vill du jobba vidare med källkritik i din programverksamhet? Se <a href="#bonus">bonusfliken</a> för Quiz: Fejk eller Äkta? och Nyhetsvärderaren.</div>
+
+    <a href="#top" class="back-top">↑ Tillbaka till toppen</a>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- DEL 3                                      -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="rule">
+  <section id="del3">
+    <div class="label">Del 3 · Tillfälle 3</div>
+    <h1 class="section-title">Organisation &amp; <em>AI-policy</em></h1>
+    <p class="section-sub">Vad som gäller när AI möter arbetsplatsen – och hur ni bygger gemensam kunskap</p>
+
+    <div class="subhead">Teori</div>
+    <ul class="theory-list">
+      <li><strong>Shadow AI</strong> vs. handlingsförlamning – varken att förbjuda AI helt eller att låta alla göra som de vill är en bra lösning. Målet är medvetna, gemensamma spelregler.</li>
+      <li><strong>MSB:s fyra klassificeringsnivåer</strong> (0 Försumbar – 3 Allvarlig) – ett ramverk för att bedöma vad som är okej att ladda upp (se tabellen nedan).</li>
+      <li><strong>Offentlighetsprincipen</strong> – det mesta du skriver i tjänsten borde redan vara okej att ladda upp, eftersom det ändå kan begäras ut.</li>
+      <li><strong>Tre grundregler:</strong> inga personuppgifter, ingen känslig intern information, och tänk på att allt du skriver kan bli framtida träningsdata.</li>
+      <li><strong>NotebookLM</strong> – vårt första möte med verktyget i den här serien: ett sätt att bygga en gemensam kunskapssamling eller intern databank utifrån era egna dokument.</li>
+    </ul>
+
+    <div class="subhead">Workshop – Informationsklassificering</div>
+    <p class="section-sub" style="margin-bottom:1.5rem; padding-bottom:0; border-bottom:none;">Grupper om 2–3 personer</p>
+
+    <div class="scenario-box">
+      <div class="scenario-label">Mål med övningen</div>
+      <p>Träna er på att bedöma vilken typ av textmaterial som är lämpligt att ladda upp till en AI-tjänst – med MSB:s klassificeringsnivåer som ramverk för diskussion. Det finns inga rätt eller fel svar, bara ett underlag för att resonera tillsammans.</p>
+    </div>
+
+    <div class="tasks">
+      <div class="task">
+        <div class="task-num">1</div>
+        <div class="task-body">
+          <h3>Läs exempeltexterna</h3>
+          <p>Läs igenom de fyra exempeltexterna i gruppen.</p>
+        </div>
+      </div>
+      <div class="task">
+        <div class="task-num">2</div>
+        <div class="task-body">
+          <h3>Diskutera och bedöm risknivå</h3>
+          <p>Diskutera och bedöm risknivån (0–3) för varje text utifrån MSB-modellen nedan. Tänk på: vad händer om den här texten hamnar utanför er organisation?</p>
+        </div>
+      </div>
+      <div class="task">
+        <div class="task-num">3</div>
+        <div class="task-body">
+          <h3>Registrera era svar</h3>
+          <p>Fyll i era bedömningar i <a href="https://forms.gle/Vcm5hk1t8dMSfB529" target="_blank">Google-formuläret: Klassificering av textrisk</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="classification-table">
+      <div class="ct-header">MSB:s klassificeringsnivåer – er guide under övningen</div>
+      <div class="ct-row">
+        <div class="ct-level">Nivå 0</div>
+        <div class="ct-body">
+          <strong>Försumbar</strong>
+          <p>Informationen kan spridas fritt utan att någon tar skada – t.ex. offentlig statistik eller allmänna rutiner.</p>
+        </div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-level">Nivå 1</div>
+        <div class="ct-body">
+          <strong>Måttlig</strong>
+          <p>Intern men relativt harmlös; en spridning skulle orsaka besvär men inga allvarliga konsekvenser.</p>
+        </div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-level">Nivå 2</div>
+        <div class="ct-body">
+          <strong>Betydande</strong>
+          <p>Innehåller personuppgifter eller känsliga detaljer där spridning kan ge kännbara konsekvenser.</p>
+        </div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-level">Nivå 3</div>
+        <div class="ct-body">
+          <strong>Allvarlig</strong>
+          <p>Sekretessbelagd eller så känslig att en spridning allvarligt kan skada enskilda, verksamheten eller samhällsviktiga funktioner.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="welcome" style="font-size: 0.88rem; color: var(--muted); margin-bottom: 2.2rem;">Ingen separat hemuppgift på det här temat – övningen ovan täcker det tillräckligt.</p>
+
+    <div class="subhead">Hemuppgift – Skapa din egen notebook</div>
+    <p class="welcome" style="margin-bottom: 1rem;">Skapa en ny notebook i <a href="https://notebooklm.google.com" target="_blank" style="color: var(--accent);">NotebookLM</a>. Ladda upp 2–3 egna dokument som är centrala för ditt arbete (projektplaner, rutindokument, mötesanteckningar). Ställ frågor till materialet – gärna en du redan vet svaret på, för att kontrollera träffsäkerheten.</p>
+
+    <div class="callout"><strong>Frivilligt tillägg:</strong> Har du en inspelning från ett möte eller en föreläsning? Ladda upp ljudfilen i en separat notebook och be NotebookLM sammanfatta den som ett strukturerat mötesprotokoll (datum, deltagare, diskussionspunkter, beslut).</div>
+
+    <div class="reflection">
+      <h2>Reflektera</h2>
+      <ul>
+        <li>Hur skiljer sig det här från att fråga en vanlig AI-chatt utan egna källor?</li>
+        <li>Ser du användningsområden i ditt dagliga arbete?</li>
+      </ul>
+    </div>
+
+    <div class="callout">💡 Vill du bygga vidare på det här inom programverksamheten? Se <a href="#bonus">bonusfliken</a> för fler idéer kring gemensamma kunskapsbanker och digital källkritik.</div>
+
+    <a href="#top" class="back-top">↑ Tillbaka till toppen</a>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- BONUS – PROGRAMVERKSAMHET                  -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="rule">
+  <section id="bonus">
+    <div class="label">Bonus · På egen hand</div>
+    <h1 class="section-title">Programverksamhet med <em>AI</em></h1>
+    <p class="section-sub">Fristående idéer för dig som vill gå vidare efter kursen – inte kopplat till ett specifikt utbildningstillfälle</p>
+
+    <div class="kategori-label">📚 Folkbildning</div>
+
+    <div class="program-card">
+      <h3>1. AI-klubben för seniorer och teknikovana</h3>
+      <div class="program-desc">En trygg introduktion där fokus ligger på vardagsnytta snarare än teknisk jargong.</div>
+      <div class="program-meta">
+        <span class="program-chip">⏱ 60–90 min/tillfälle</span>
+        <span class="program-chip">🎯 Studiecirkel</span>
+        <span class="program-chip">💻 Surfplatta eller dator</span>
+      </div>
+      <p class="program-text">Syfte: Gå från utanförskap till nyfikenhet och minska rädslan för ny teknik genom att visa hur den kan underlätta vardagen. Skapa en kravlös atmosfär – inga dumma frågor.</p>
+      <ul class="steps-mini">
+        <li><span class="step-tag">Välkomnande:</span> Skapa kravlös atmosfär. Påpeka att du också är nybörjare.</li>
+        <li><span class="step-tag">Utforska tillsammans:</span> Gör övningarna gemensamt, gärna på projektor.</li>
+        <li><span class="step-tag">Reflektion:</span> Samtal om upplevelsen – var det skrämmande eller hjälpsamt?</li>
+      </ul>
+    </div>
+
+    <div class="program-card">
+      <h3>2. MIK för unga: Emotionell AI</h3>
+      <div class="program-desc">En diskussionsbaserad workshop om relationer till maskiner.</div>
+      <div class="program-meta">
+        <span class="program-chip">⏱ Ca 60 min</span>
+        <span class="program-chip">🎯 Ungdomar</span>
+        <span class="program-chip">💡 Inspiration: Brooklyn Public Library</span>
+      </div>
+      <p class="program-text">Vi utgår från ungdomarnas verklighet där "AI-kompisar" blir allt vanligare. Diskutera vad som skiljer en syntetisk vänskap från en mänsklig.</p>
+      <ul class="steps-mini">
+        <li><span class="step-tag">Intro:</span> Frågeställning – "Är det okej att bli vän med en bot?"</li>
+        <li><span class="step-tag">Workshop/Test:</span> Ungdomarna utforskar hur AI svarar på känslomässiga frågor.</li>
+        <li><span class="step-tag">Diskussion:</span> Vad händer när tekniken svarar med "känslor"? Är empatin äkta?</li>
+      </ul>
+    </div>
+
+    <div class="kategori-label">🎨 Skapande</div>
+
+    <div class="program-card">
+      <h3>3. För barn: Från högläsning till omslagsbild</h3>
+      <div class="program-desc">En aktivitet som blandar analogt ritande med digital magi.</div>
+      <div class="program-meta">
+        <span class="program-chip">⏱ Ca 60 min</span>
+        <span class="program-chip">🎯 Barn</span>
+        <span class="program-chip">🖍 Papper + kritor</span>
+        <span class="program-chip">🤖 Bildgenerering: Gemini eller ChatGPT</span>
+      </div>
+      <p class="program-text">Barnen blir medskapare där tekniken fungerar som en brygga in i litteraturen.</p>
+      <ul class="steps-mini">
+        <li><span class="step-tag">Lyssna:</span> Bibliotekarien högläser en spännande saga.</li>
+        <li><span class="step-tag">Skapa:</span> Barnen ritar figurer eller scener från sagan (skisser).</li>
+        <li><span class="step-tag">Transformera:</span> Ladda upp teckningarna i AI som genererar en "riktig" omslagsbild. Skriv ut och ta med hem!</li>
+      </ul>
+    </div>
+
+    <div class="program-card">
+      <h3>4. För vuxna: Den oändliga novellen</h3>
+      <div class="program-desc">Interaktivt skrivande där deltagarna styr handlingen.</div>
+      <div class="program-meta">
+        <span class="program-chip">⏱ 60–90 min</span>
+        <span class="program-chip">🎯 Vuxna</span>
+        <span class="program-chip">📖 Storbildsskärm</span>
+        <span class="program-chip">🤖 Text-AI: ChatGPT eller Gemini</span>
+      </div>
+      <ul class="steps-mini">
+        <li><span class="step-tag">Läs:</span> Högläs en novell med öppet slut.</li>
+        <li><span class="step-tag">Interagera:</span> Använd AI med instruktionen "Förvandla berättelsen till ett Choose Your Own Adventure-spel".</li>
+        <li><span class="step-tag">Diskutera:</span> Låt deltagarna rösta om vilken väg berättelsen ska ta.</li>
+      </ul>
+    </div>
+
+    <div class="program-card">
+      <h3>5. AI och serier: Från streckgubbar till konst</h3>
+      <div class="program-desc">Skapa proffsiga serier även om man "inte kan rita".</div>
+      <div class="program-meta">
+        <span class="program-chip">⏱ Ca 90 min</span>
+        <span class="program-chip">🎯 Alla åldrar</span>
+        <span class="program-chip">✏️ Papper</span>
+        <span class="program-chip">🤖 Bildgenerering: Gemini eller NotebookLM</span>
+      </div>
+      <ul class="steps-mini">
+        <li><span class="step-tag">Skissa:</span> Rita en enkel mall (3–5 rutor) med streckgubbar.</li>
+        <li><span class="step-tag">Beskriv:</span> Skriv ner handlingen för varje ruta.</li>
+        <li><span class="step-tag">Prompta:</span> Be AI:n "Gör om detta till en seriestripp" och ladda upp skissen.</li>
+        <li><span class="step-tag">Resultat:</span> Jämför skissen med det färdiga resultatet!</li>
+      </ul>
+    </div>
+
+    <div class="program-card">
+      <h3>6. Den digitala ateljén (drop-in eller stationer)</h3>
+      <div class="program-desc">En "smörgåsbord"-upplevelse av kreativa verktyg.</div>
+      <div class="program-meta">
+        <span class="program-chip">⏱ Löpande drop-in</span>
+        <span class="program-chip">🎯 Alla</span>
+        <span class="program-chip">🖼 Bild: Gemini · 🎵 Musik: Suno</span>
+      </div>
+      <p class="program-text">Demonstrera bredden av tjänster (bild, musik, video) och sänk tröskeln för eget skapande på gratisnivå. Tips: fråga arbetskollegor vilka verktyg de behärskar och anpassa aktiviteten utifrån det.</p>
+    </div>
+
+    <div class="program-card">
+      <h3>7. AI-poesi: Från text till ton</h3>
+      <div class="program-desc">Kombinera lyrik med musikproduktion.</div>
+      <div class="program-meta">
+        <span class="program-chip">⏱ Ca 60 min</span>
+        <span class="program-chip">🎯 Unga</span>
+        <span class="program-chip">🤖 Text: ChatGPT eller Gemini</span>
+        <span class="program-chip">🎵 Musik: Suno</span>
+      </div>
+      <ul class="steps-mini">
+        <li><span class="step-tag">Skriv:</span> Deltagarna skriver korta dikter eller textrader.</li>
+        <li><span class="step-tag">Iterera:</span> Ladda upp texten till en chatbot för varianter eller rimhjälp.</li>
+        <li><span class="step-tag">Musiksätt:</span> Be chatboten strukturera om dikten till en låttext (vers/refräng).</li>
+        <li><span class="step-tag">Producera:</span> Ladda in texten i Suno och låt AI:n framföra låten i vald genre.</li>
+      </ul>
+    </div>
+
+    <div class="kategori-label">🗳 Demokrati &amp; källkritik</div>
+
+    <div class="program-card">
+      <h3>8. Den manipulerade tipspromenaden</h3>
+      <div class="program-desc">Källkritik i fysisk miljö – "Börja gräva där ni står".</div>
+      <div class="program-meta">
+        <span class="program-chip">⏱ 45 min – 1 vecka</span>
+        <span class="program-chip">🎯 Alla</span>
+        <span class="program-chip">📷 Kamera</span>
+        <span class="program-chip">🤖 Bildredigering: Gemini</span>
+      </div>
+      <p class="program-text">Synliggöra hur subtil manipulation kan vara och träna deltagarna i att inte tro på sina ögon.</p>
+      <ul class="steps-mini">
+        <li><span class="step-tag">Fota:</span> Ta bilder i det egna biblioteksrummet (lånedisken, hyllorna).</li>
+        <li><span class="step-tag">Manipulera:</span> Lägg till objekt med AI (t.ex. en pingvin i hyllan, en kungakrona på disken).</li>
+        <li><span class="step-tag">Montera:</span> Sätt upp bilderna på plats som en tipspromenad.</li>
+        <li><span class="step-tag">Uppgift:</span> Gå runt och avgör – vad är äkta och vad är fejk på bilden?</li>
+      </ul>
+    </div>
+
+    <div class="program-card">
+      <h3>9. Quiz: Fejk eller Äkta?</h3>
+      <div class="program-desc">En publik aktivitet för storskärm.</div>
+      <div class="program-meta">
+        <span class="program-chip">⏱ 15–30 min</span>
+        <span class="program-chip">🎯 Alla</span>
+        <span class="program-chip">📊 Bildspel med bildjämförelser</span>
+        <span class="program-chip">▶️ Inspiration: YouTube</span>
+      </div>
+      <p class="program-text">Praktisk övning i visuell källkritik – perfekt som intro till en föreläsning. Hitta jämförelseövningar och exempel att använda i bildspelet genom att söka på YouTube.</p>
+      <ul class="steps-mini">
+        <li><span class="step-tag">Visa:</span> Ställ två snarlika bilder bredvid varandra (t.ex. porträtt).</li>
+        <li><span class="step-tag">Gissa:</span> Utmana publiken att rösta på vilken som är AI och vilken som är ett riktigt foto.</li>
+        <li><span class="step-tag">Analysera:</span> Diskutera ledtrådar som avslöjar AI:n (händer, skuggor, logiska orimligheter).</li>
+      </ul>
+    </div>
+
+    <div class="resource-group">
+      <h3>Kompletterande resurser</h3>
+      <ul class="resource-list">
+        <li>
+          <a href="https://nyhetsvarderaren.se/" target="_blank">Nyhetsvärderaren</a>
+          <span class="res-desc">Verktyg för att träna källkritik och värdera nyhetskällor</span>
+        </li>
+        <li>
+          <a href="https://youtu.be/2ZD-pxXxScA" target="_blank">Fejkade vs. äkta AI-videor</a>
+          <span class="res-desc">Videosammanställning för att lära sig skilja fejkade AI-videor från äkta</span>
+        </li>
+        <li>
+          <a href="https://sant-eller-ai.lovable.app" target="_blank">Sant eller AI</a>
+          <span class="res-desc">Interaktivt quiz där du gissar om innehållet är äkta eller AI-genererat</span>
+        </li>
+        <li>
+          <a href="https://drive.google.com/drive/folders/16K3vm9dbmOixGvsLWBcCKxXNFxrxq5X3" target="_blank">Tipspromenad – äkta eller AI-bild?</a>
+          <span class="res-desc">Exempel på en tipspromenad med bilder – gissa vilka som är AI-genererade</span>
+        </li>
+      </ul>
+    </div>
+
+    <hr class="soft">
+
+    <div class="event-card">
+      <div class="event-label">Frivillig bonusuppgift</div>
+      <p>Ta fram en affisch för ett tänkt bibliotekscevenemang med hjälp av AI. Skriv affischtexten i Copilot, testa olika tonlägen. Generera en bild som passar. Jämför gärna med att göra samma sak i NotebookLM (infografik).</p>
+    </div>
+
+    <a href="#top" class="back-top">↑ Tillbaka till toppen</a>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- RESURSER                                   -->
+  <!-- ══════════════════════════════════════════ -->
+  <hr class="rule">
+  <section id="resurser">
+    <div class="label">Ta med hem</div>
+    <h1 class="section-title">Resurser &amp; <em>vidare läsning</em></h1>
+    <p class="section-sub">Utvalda artiklar, verktyg och promptbibliotek från <a href="https://aifolkbildaren.se" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--rule);">aifolkbildaren.se</a></p>
+
+    <div class="resource-group">
+      <h3>Artiklar på Digiteket</h3>
+      <ul class="resource-list">
+        <li>
+          <a href="https://digiteket.se/kurs/en-praktisk-introduktion-till-generativ-ai-chatgpt-gemini-och-copilot/" target="_blank">En praktisk introduktion till generativ AI</a>
+          <span class="res-desc">ChatGPT, Gemini och Copilot – bra startpunkt om du vill repetera grunderna</span>
+        </li>
+        <li>
+          <a href="https://digiteket.se/kurs/perplexity-levla-upp-ditt-referensarbete/" target="_blank">Perplexity – Levla upp ditt referensarbete</a>
+          <span class="res-desc">Fördjupning om verktyget vi använde i Del 2</span>
+        </li>
+        <li>
+          <a href="https://digiteket.se/kurs/notebooklm-chatta-med-din-data/" target="_blank">NotebookLM – chatta med din data</a>
+          <span class="res-desc">Fördjupning om verktyget vi använde i Del 3</span>
+        </li>
+        <li>
+          <a href="https://digiteket.se/kurs/ner-i-kaninhalet-starta-din-egen-studiecirkel-om-ai/" target="_blank">Ner i kaninhålet – Starta din egen studiecirkel om AI</a>
+          <span class="res-desc">Tips för den som vill fortsätta lära sig i studiecirkelform</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="resource-group">
+      <h3>Promptbibliotek</h3>
+      <ul class="resource-list">
+        <li>
+          <a href="https://vidarkjerstadius.wordpress.com/promptbibliotek-och-resurser-real/prompter-for-skrivande/" target="_blank">Prompter för skrivande</a>
+          <span class="res-desc">Färdiga promptar för texter, kursbeskrivningar och kommunikation</span>
+        </li>
+        <li>
+          <a href="https://vidarkjerstadius.wordpress.com/promptbibliotek-och-resurser-real/prompter-for-moten/" target="_blank">Prompter för möten</a>
+          <span class="res-desc">Sammanfatta, transkribera och strukturera möten</span>
+        </li>
+        <li>
+          <a href="https://vidarkjerstadius.wordpress.com/promptbibliotek-och-resurser-real/prompter-for-projektplanering/" target="_blank">Prompter för brainstorming</a>
+          <span class="res-desc">Idégenerering och projektplanering</span>
+        </li>
+        <li>
+          <a href="https://aifolkbildaren.se/promptbibliotek-och-resurser-real/" target="_blank">aifolkbildaren.se – Promptbibliotek &amp; resurser</a>
+          <span class="res-desc">Komplett samling med prompter, verktyg, poddar och böcker – uppdateras löpande</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="resource-group">
+      <h3>Verktyg &amp; lärresurser</h3>
+      <ul class="resource-list">
+        <li>
+          <a href="https://internetkunskap.se/artiklar/grundkurs-i-ai/kom-igang-med-ai-guide-for-dig-som-ar-nyborjare/" target="_blank">Kom igång med AI</a>
+          <span class="res-desc">Internetstiftelsens guide för nybörjare</span>
+        </li>
+        <li>
+          <a href="https://internetkunskap.se/artiklar/grundkurs-i-ai/sa-soker-du-kallkritiskt-med-ai/" target="_blank">Så söker du källkritiskt med AI</a>
+          <span class="res-desc">Internetstiftelsen – direkt kopplat till Del 2</span>
+        </li>
+        <li>
+          <a href="https://internetkunskap.se/artiklar/grundkurs-i-ai/blotta-ogat-racker-inte-sa-avslojar-du-falska-bilder-i-en-tid-av-ai/" target="_blank">Avslöja AI-genererade bilder</a>
+          <span class="res-desc">Internetstiftelsen – bra uppföljning till bonusfliken</span>
+        </li>
+        <li>
+          <a href="https://course.elementsofai.com/se/" target="_blank">Elements of AI</a>
+          <span class="res-desc">Gratis webbkurs om hur AI fungerar teoretiskt</span>
+        </li>
+        <li>
+          <a href="https://mediemedveten.se/" target="_blank">Mediemedveten</a>
+          <span class="res-desc">Mediemyndighetens kurs om MIK och källkritik</span>
+        </li>
+        <li>
+          <a href="https://theresanaiforthat.com/" target="_blank">There's An AI For That</a>
+          <span class="res-desc">Samlar och kategoriserar olika AI-tjänster</span>
+        </li>
+        <li>
+          <a href="https://mickekring.se/" target="_blank">Micke Kring</a>
+          <span class="res-desc">Mångsysslare med många praktiska AI-tillämpningar</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="resource-group">
+      <h3>Böcker &amp; poddar</h3>
+      <ul class="resource-list">
+        <li>
+          <a href="https://www.adlibris.com/sv/bok/maskiner-som-tanker-algoritmernas-hemligheter-och-vagen-till-artificiell-intelligens-9789180662185" target="_blank">Maskiner som tänker</a>
+          <span class="res-desc">Bok – algoritmernas hemligheter och vägen till artificiell intelligens</span>
+        </li>
+        <li>
+          <a href="https://www.adlibris.com/sv/bok/ai-for-nyborjare-20-allt-du-behover-for-att-komma-i-gang-med-artificiell-intelligens-9789127470767" target="_blank">AI för nybörjare 2.0</a>
+          <span class="res-desc">Bok – allt du behöver för att komma igång med AI</span>
+        </li>
+        <li>
+          <a href="https://open.spotify.com/show/61Fr0ASttW7VmunY1r0EtR" target="_blank">Veckans AI-podcast</a>
+          <span class="res-desc">Lärorik podd om AI-tjänster och nyheter</span>
+        </li>
+        <li>
+          <a href="https://poddtoppen.se/podcast/1650643100/hard-fork" target="_blank">Hard Fork</a>
+          <span class="res-desc">Lärorik podd om AI-tjänster och nyheter</span>
+        </li>
+      </ul>
+    </div>
+
+    <a href="#top" class="back-top">↑ Tillbaka till toppen</a>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <div class="footer-contact">
+    <h4>AI Folkbildaren</h4>
+    <div class="contact-links">
+      <a href="mailto:vidar.kjerstadius@gmail.com">vidar.kjerstadius@gmail.com</a>
+      <a href="https://www.linkedin.com/in/vidarkjerstadius" target="_blank">LinkedIn</a>
+      <a href="https://www.facebook.com/profile.php?id=61569294428546" target="_blank">Facebook</a>
+      <a href="https://www.aifolkbildaren.se" target="_blank">aifolkbildaren.se</a>
+    </div>
+  </div>
+  <p class="footer-note">AI i folkbibliotekets praktik · AI Folkbildaren</p>
+
+</div>
+</body>
+</html>
