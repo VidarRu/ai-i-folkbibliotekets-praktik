@@ -300,22 +300,52 @@
   /* ── TASKS ── */
   .tasks { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
 
-  .task { display: grid; grid-template-columns: 2.4rem 1fr; gap: 1rem; align-items: start; }
-
-  .task-num {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--accent);
+  .task {
+    background: var(--bg2);
     border: 1px solid var(--border);
-    line-height: 1;
-    text-align: center;
-    padding: 0.4rem 0;
-    margin-top: 0.1rem;
+    border-top: 2px solid var(--accent);
+    padding: 1.5rem 1.7rem;
+    position: relative;
   }
 
-  .task-body h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--ink); }
+  .task-num {
+    position: absolute;
+    top: -1px;
+    right: 1.1rem;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1;
+    padding: 0.2rem 0.6rem;
+    letter-spacing: 0.05em;
+  }
+
+  .task-body h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--ink); padding-right: 2.5rem; }
   .task-body p { font-size: 0.9rem; line-height: 1.65; color: var(--dim); }
+
+  /* ── OVERVIEW TABLE ── */
+  .overview-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; background: var(--bg2); border: 1px solid var(--border); }
+
+  .overview-table thead th {
+    background: var(--bg3);
+    color: var(--accent);
+    text-align: left;
+    padding: 0.55rem 0.9rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .overview-table tbody tr { border-bottom: 1px solid var(--border); }
+  .overview-table tbody tr:last-child { border-bottom: none; }
+  .overview-table td { padding: 0.6rem 0.9rem; vertical-align: top; color: var(--dim); }
+  .overview-table td:first-child { color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .overview-table td:nth-child(2) { color: var(--ink); }
 
   .prompt-example {
     margin-top: 0.7rem;
@@ -607,7 +637,7 @@
         <span class="index-num">2</span>
         <div>
           <a href="#del1">Del 1 – Praktisk introduktion till generativ AI</a>
-          <div class="index-desc">Teori, workshop och hemuppgifter</div>
+          <div class="index-desc">Teori, begrepp och hemuppgifter</div>
         </div>
       </li>
       <li>
@@ -727,57 +757,6 @@
       <li><strong>Hallucination</strong> – när AI:n presenterar felaktig information som om den var sann.</li>
     </ul>
 
-    <div class="subhead">Workshop – Bokjakten</div>
-    <p class="section-sub" style="margin-bottom:1.5rem; padding-bottom:0; border-bottom:none;">Microsoft Copilot · Grupper om 3–4 personer</p>
-
-    <div class="scenario-box">
-      <div class="scenario-label">Mål med övningen</div>
-      <p>Testa hur bra AI egentligen är på att identifiera böcker utifrån vaga beskrivningar – och öva på att formulera prompter med olika grad av specificitet.</p>
-    </div>
-
-    <div class="tasks">
-      <div class="task">
-        <div class="task-num">1</div>
-        <div class="task-body">
-          <h3>Välj vem som börjar</h3>
-          <p>Bestäm i gruppen vem som ska börja som beskrivare. Beskrivaren håller upp sin bok – utan att visa framsidan för de andra i gruppen.</p>
-        </div>
-      </div>
-      <div class="task">
-        <div class="task-num">2</div>
-        <div class="task-body">
-          <h3>Beskriv boken</h3>
-          <p>Beskrivaren berättar om bokens handling, stämning eller tema – utan att nämna titel eller författare.</p>
-          <div class="prompt-example">Exempel: "En ung trollkarl börjar på en skola och får vänner och fiender…"</div>
-        </div>
-      </div>
-      <div class="task">
-        <div class="task-num">3</div>
-        <div class="task-body">
-          <h3>Låt de andra söka i Copilot</h3>
-          <p>De övriga i gruppen försöker hitta rätt bok med hjälp av Copilot. Testa att formulera prompten på olika sätt – vad händer om man är mer eller mindre specifik?</p>
-          <div class="prompt-example">Förslag: "Kan du identifiera vilken bok det här handlar om: …"</div>
-        </div>
-      </div>
-      <div class="task">
-        <div class="task-num">4</div>
-        <div class="task-body">
-          <h3>Byt och fortsätt</h3>
-          <p>Så fort någon gissar rätt byter ni – nästa person tar över som beskrivare med sin bok.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="reflection">
-      <h2>Diskutera i gruppen</h2>
-      <ul>
-        <li>Vilka beskrivningar var svårast för AI:n att identifiera?</li>
-        <li>Vilka prompter fungerade bäst – och varför tror ni det?</li>
-        <li>Vad säger det här om hur AI:n "förstår" innehåll jämfört med en människa?</li>
-        <li>Hur skulle detta kunna användas i mötet med låntagare?</li>
-      </ul>
-    </div>
-
     <div class="subhead">Demo</div>
     <p class="welcome" style="margin-bottom: 1.2rem;">Under tillfället visar vi det här tillsammans – ingen deltagaruppgift, men bra att ha sett innan du gör hemuppgifterna:</p>
     <ul class="theory-list">
@@ -786,9 +765,44 @@
     </ul>
 
     <div class="subhead">Hemuppgifter</div>
+    <div class="label" style="margin-top:0;">Översikt</div>
+    <div style="overflow-x:auto; margin-bottom: 2rem;">
+      <table class="overview-table">
+        <thead>
+          <tr><th>#</th><th>Uppgift</th><th>Fokusområde</th><th>Verktyg</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>01</td><td>Bokjakten</td><td>Promptformulering &amp; specificitet</td><td>Copilot</td></tr>
+          <tr><td>02</td><td>Prompt-pusslet</td><td>Strukturerad vs. naturlig strategi</td><td>Copilot</td></tr>
+          <tr><td>03</td><td>Skrivarassistenten</td><td>Kommunikation &amp; textproduktion</td><td>Copilot</td></tr>
+          <tr><td>04</td><td>Skapa din första AI-agent</td><td>Skapa en agent i Copilot</td><td>Copilot</td></tr>
+          <tr><td>05</td><td>Personliga inställningar &amp; minnesfunktioner</td><td>Personliga anpassningar</td><td>Copilot</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     <div class="tasks">
       <div class="task">
         <div class="task-num">1</div>
+        <div class="task-body">
+          <h3>Bokjakten</h3>
+          <div class="callout"><strong>OBS:</strong> Gäller bara om du går utbildningen som representant för ditt bibliotek – testa övningen med dina kollegor efter tillfället. Går hela biblioteket kursen tillsammans? Då kan ni hoppa över den här uppgiften, eftersom alla redan testat den tillsammans.</div>
+          <p>Testa hur bra AI egentligen är på att identifiera böcker utifrån vaga beskrivningar – och öva på att formulera prompter med olika grad av specificitet. Gör övningen tillsammans med minst en kollega.</p>
+          <ul class="steps-mini">
+            <li><span class="step-tag">Steg 1:</span> Bestäm vem som börjar som beskrivare. Beskrivaren håller upp sin bok – utan att visa framsidan för de andra.</li>
+            <li><span class="step-tag">Steg 2:</span> Beskrivaren berättar om bokens handling, stämning eller tema – utan att nämna titel eller författare.
+              <div class="prompt-example">Exempel: "En ung trollkarl börjar på en skola och får vänner och fiender…"</div>
+            </li>
+            <li><span class="step-tag">Steg 3:</span> De andra försöker hitta rätt bok med hjälp av Copilot – testa att formulera prompten på olika sätt. Vad händer om man är mer eller mindre specifik?
+              <div class="prompt-example">Förslag: "Kan du identifiera vilken bok det här handlar om: …"</div>
+            </li>
+            <li><span class="step-tag">Steg 4:</span> Så fort någon gissar rätt byter ni – nästa person tar över som beskrivare med sin bok.</li>
+            <li><span class="step-tag">Reflektion:</span> Vilka beskrivningar var svårast för AI:n att identifiera? Vilka prompter fungerade bäst – och varför? Hur skulle detta kunna användas i mötet med låntagare?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="task">
+        <div class="task-num">2</div>
         <div class="task-body">
           <h3>Prompt-pusslet</h3>
           <p>Öva på de två strategier vi gick igenom: den strukturerade och den naturliga. Syftet är att testa hur samma grundidé tas emot av AI:n beroende på hur du formulerar dig.</p>
@@ -800,7 +814,7 @@
         </div>
       </div>
       <div class="task">
-        <div class="task-num">2</div>
+        <div class="task-num">3</div>
         <div class="task-body">
           <h3>Skrivarassistenten</h3>
           <p>Använd AI för att effektivisera din kommunikation med en befintlig text (t.ex. ett internt rutindokument, information från er hemsida eller ett programblad).</p>
@@ -812,9 +826,10 @@
         </div>
       </div>
       <div class="task">
-        <div class="task-num">3</div>
+        <div class="task-num">4</div>
         <div class="task-body">
           <h3>Skapa din första AI-agent</h3>
+          <div class="callout">Vill du repetera genomgången? <a href="https://youtu.be/Tsn7YPtW_38" target="_blank">Se videoinstruktionen</a> för hur du bygger en egen agent.</div>
           <p>Skapa en personlig agent (Copilot Agent) som motsvarar ett återkommande användningsområde i ditt arbete. Testa den på en riktig arbetsuppgift.</p>
           <ul class="steps-mini">
             <li><span class="step-tag">Grupp:</span> Fundera på om ni ska vara en eller två personer – det kan vara enklare att vara två och dela arbetsuppgifter.</li>
@@ -826,9 +841,22 @@
           </ul>
         </div>
       </div>
+      <div class="task">
+        <div class="task-num">5</div>
+        <div class="task-body">
+          <h3>Personliga inställningar &amp; minnesfunktioner</h3>
+          <div class="callout"><strong>OBS:</strong> Det här momentet gick vi inte igenom på tillfället – <a href="https://youtu.be/X85uDtjwiMY" target="_blank">kika på videoinstruktionen</a> för genomgång.</div>
+          <p>Aktivera Copilots minnesfunktioner och se hur AI:n svarar annorlunda utifrån dina egna inställningar.</p>
+          <ul class="steps-mini">
+            <li><span class="step-tag">Steg 1:</span> Aktivera Sparat minne. Klicka på "Hantera sparade minnen" för att se om det finns något sedan tidigare.</li>
+            <li><span class="step-tag">Steg 2:</span> Aktivera Anpassa instruktioner (om den inte redan är aktiv).</li>
+            <li><span class="step-tag">Steg 3:</span> Klicka på Redigera instruktioner och fyll i hur du vill att Copilot ska svara eller bete sig.</li>
+            <li><span class="step-tag">Steg 4:</span> Testa i chatten och se hur den svarar annorlunda med dina nya instruktioner.</li>
+            <li><span class="step-tag">Steg 5:</span> Be Copilot komma ihåg något om dig eller ditt arbete – gå sedan till inställningar → "Hantera minnen" för att bekräfta att det uppdaterats.</li>
+          </ul>
+        </div>
+      </div>
     </div>
-
-    <div class="callout"><strong>Frivillig fördjupning:</strong> Vill du gå djupare? Testa Personliga inställningar &amp; minnesfunktioner i Copilot – aktivera Sparat minne och Anpassa instruktioner, och se hur AI:n svarar annorlunda utifrån dina egna inställningar.</div>
 
     <a href="#top" class="back-top">↑ Tillbaka till toppen</a>
   </section>
@@ -852,7 +880,7 @@
       <li><strong>Faktagranskning i två steg</strong> – låt ett verktyg skriva svaret, och ett annat verktyg kontrollera det.</li>
     </ul>
 
-    <p class="welcome" style="font-size: 0.92rem; font-style: italic; color: var(--muted); margin-bottom: 2.2rem;">Under tillfället testade vi tillsammans Hallucinationstestet (Perplexity mot Google, på en fritt vald samtidsfråga) – live, i grupp.</p>
+    <p class="welcome" style="font-size: 0.92rem; font-style: italic; color: var(--dim); margin-bottom: 2.2rem;">Under tillfället testade vi tillsammans Hallucinationstestet (Perplexity mot Google, på en fritt vald samtidsfråga) – live, i grupp.</p>
 
     <div class="subhead">Hemuppgift – Föreläsningsförfrågan i disken</div>
     <p class="section-sub" style="margin-bottom:1.5rem; padding-bottom:0; border-bottom:none;">Copilot + Perplexity eller ChatGPT · ca 20–30 min</p>
@@ -978,7 +1006,7 @@
       </div>
     </div>
 
-    <p class="welcome" style="font-size: 0.88rem; color: var(--muted); margin-bottom: 2.2rem;">Ingen separat hemuppgift på det här temat – övningen ovan täcker det tillräckligt.</p>
+    <p class="welcome" style="font-size: 0.88rem; color: var(--dim); margin-bottom: 2.2rem;">Ingen separat hemuppgift på det här temat – övningen ovan täcker det tillräckligt.</p>
 
     <div class="subhead">Hemuppgift – Skapa din egen notebook</div>
     <p class="welcome" style="margin-bottom: 1rem;">Skapa en ny notebook i <a href="https://notebooklm.google.com" target="_blank" style="color: var(--accent);">NotebookLM</a>. Ladda upp 2–3 egna dokument som är centrala för ditt arbete (projektplaner, rutindokument, mötesanteckningar). Ställ frågor till materialet – gärna en du redan vet svaret på, för att kontrollera träffsäkerheten.</p>
@@ -1197,7 +1225,7 @@
   <section id="resurser">
     <div class="label">Ta med hem</div>
     <h1 class="section-title">Resurser &amp; <em>vidare läsning</em></h1>
-    <p class="section-sub">Utvalda artiklar, verktyg och promptbibliotek från <a href="https://aifolkbildaren.se" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--rule);">aifolkbildaren.se</a></p>
+    <p class="section-sub">Utvalda artiklar, verktyg och promptbibliotek från <a href="https://aifolkbildaren.se" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--border);">aifolkbildaren.se</a></p>
 
     <div class="resource-group">
       <h3>Artiklar på Digiteket</h3>
