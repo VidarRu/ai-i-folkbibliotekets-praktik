@@ -218,6 +218,25 @@
   hr.rule { border: none; border-top: 1px solid var(--border); margin: 3rem 0 0; }
   hr.soft { border: none; border-top: 1px solid var(--border); margin: 2rem 0; opacity: 0.6; }
 
+  /* ── PRESENTATION LINK ── */
+  .slides-link {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 0.9rem 1.3rem;
+    margin-bottom: 2.2rem;
+    font-size: 0.9rem;
+  }
+
+  .slides-link .slides-icon { font-size: 1.15rem; flex-shrink: 0; filter: saturate(0.75); }
+  .slides-link a { color: var(--accent); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--border); }
+  .slides-link a:hover { color: var(--ink); border-color: var(--accent); }
+  .slides-link .slides-desc { color: var(--dim); font-size: 0.84rem; display: block; margin-top: 0.1rem; }
+  .slides-link.slides-missing .slides-desc { font-style: italic; }
+
   /* ── SCENARIO BOX ── */
   .scenario-box {
     background: var(--bg2);
@@ -740,6 +759,14 @@
     <h1 class="section-title">Praktisk introduktion till <em>generativ AI</em></h1>
     <p class="section-sub">Grunderna i hur AI fungerar, och hur du styr den med prompting</p>
 
+    <div class="slides-link">
+      <span class="slides-icon">🖥️</span>
+      <div>
+        <a href="material/del1-presentation.pdf" target="_blank">Presentationen från tillfället</a>
+        <span class="slides-desc">Bilderna som visades under Del 1</span>
+      </div>
+    </div>
+
     <div class="subhead">Teori</div>
     <ul class="theory-list">
       <li><strong>Statistisk ordprediktion</strong> – liknelsen med autocomplete: AI:n räknar ut vilket ord som mest sannolikt kommer härnäst, utifrån enorma mängder text den tränats på.</li>
@@ -878,6 +905,14 @@
     <h1 class="section-title">Informationssökning och <em>AI</em></h1>
     <p class="section-sub">Hur du använder AI för research – utan att tappa källkritiken</p>
 
+    <div class="slides-link slides-missing">
+      <span class="slides-icon">🖥️</span>
+      <div>
+        <span style="color: var(--dim);">Presentationen från tillfället</span>
+        <span class="slides-desc">Läggs till efter tillfället</span>
+      </div>
+    </div>
+
     <div class="subhead">Teori</div>
     <ul class="theory-list">
       <li><strong>Den pragmatiska beslutsmodellen</strong> (de fyra trappstegen): Vad är syftet? Måste det vara sant? Kan du utvärdera svaret själv? Kan du använda AI för det här?</li>
@@ -940,6 +975,14 @@
     <div class="label">Del 3 · Tillfälle 3</div>
     <h1 class="section-title">AI och <em>informationshantering</em></h1>
     <p class="section-sub">Vad som gäller när AI möter arbetsplatsen – och hur ni bygger gemensam kunskap</p>
+
+    <div class="slides-link slides-missing">
+      <span class="slides-icon">🖥️</span>
+      <div>
+        <span style="color: var(--dim);">Presentationen från tillfället</span>
+        <span class="slides-desc">Läggs till efter tillfället</span>
+      </div>
+    </div>
 
     <div class="subhead">Teori</div>
     <ul class="theory-list">
