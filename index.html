@@ -366,6 +366,13 @@
   .overview-table td:first-child { color: var(--accent); font-weight: 600; white-space: nowrap; }
   .overview-table td:nth-child(2) { color: var(--ink); }
 
+  .overview-table td.mik-q { color: #6fb8d6; font-style: italic; }
+
+  .pill-yes { color: var(--accent); font-weight: 600; }
+  .pill-no { color: var(--danger); font-weight: 600; }
+  .pill-caution { color: var(--accent2); font-weight: 600; }
+  .pill-neutral { color: var(--dim); }
+
   .prompt-example {
     margin-top: 0.7rem;
     background: rgba(214,146,78,0.08);
@@ -915,15 +922,81 @@
 
     <div class="subhead">Teori</div>
     <ul class="theory-list">
-      <li><strong>Den pragmatiska beslutsmodellen</strong> (de fyra trappstegen): Vad är syftet? Måste det vara sant? Kan du utvärdera svaret själv? Kan du använda AI för det här?</li>
-      <li><strong>RAG</strong> (hämtar fakta innan den svarar) – som en referensbibliotekarie som går till hyllan först innan hon svarar på en fråga.</li>
+      <li><strong>RAG</strong> – när AI:n avgör att den behöver fakta formulerar den en sökfråga, skickar den till en sökmotor, skrapar innehållet på träffsidorna och lägger in det i sitt kontextfönster – och formulerar sedan sitt svar utifrån det. Som en referensbibliotekarie som går till hyllan innan hon svarar.</li>
       <li><strong>Deep Research</strong> och omvända kentaurer – du styr researchen, inte AI:n.</li>
+      <li><strong>Hallucinationer</strong> – enligt en studie från EBU (2025) hallucinerade ChatGPT i ca 30 % av sina svar, Gemini i ca 70 %. Felen kan vara påhittade källor, döda länkar, faktafel i kärninnehållet, överdrifter och dramatisering, snedvriden ton eller betoning, samt felaktiga eller konstruerade citat.</li>
       <li><strong>Du är human in the loop</strong> – ansvaret för det slutgiltiga svaret stannar alltid hos dig, oavsett vilket verktyg som användes.</li>
-      <li><strong>Sju konkreta sökknep:</strong> ställ tydliga frågor, ge kontext &amp; kriterier, ställ följdfrågor, testa en neutral prompt, granska svaret själv, kombinera med traditionell sökning, och utmana din egen informationsbubbla.</li>
+      <li><strong>Sex konkreta tips för AI-sökning:</strong> formulera tydliga frågor, prompta neutralt, utnyttja följdfrågor, utvärdera svaret, jämför modeller, och verifiera resultaten.</li>
       <li><strong>Faktagranskning i två steg</strong> – låt ett verktyg skriva svaret, och ett annat verktyg kontrollera det.</li>
     </ul>
 
     <p class="welcome" style="font-size: 0.92rem; font-style: italic; color: var(--dim); margin-bottom: 2.2rem;">Under tillfället testade vi tillsammans Hallucinationstestet (Perplexity mot Google, på en fritt vald samtidsfråga) – live, i grupp.</p>
+
+    <div class="subhead">Bibliotekets tre MIK-uppdrag i en AI-miljö</div>
+
+    <div class="tasks" style="margin-bottom: 2.2rem;">
+      <div class="task">
+        <div class="task-num">1</div>
+        <div class="task-body">
+          <h3>Hjälpa låntagare till AI-literacitet</h3>
+          <p>Skärningspunkten mellan MIK, klassisk källkritik och algoritmisk systemförståelse. Tre saker att lära ut:</p>
+          <ul class="steps-mini">
+            <li><span class="step-tag">Hallucinationssignaler</span> hur man känner igen tecken på att modellen hittar på – motstridiga detaljer, ett alltför säkert tonfall kring osäkra fakta, källor som inte går att verifiera.</li>
+            <li><span class="step-tag">Inbyggd bias</span> svaret färgas alltid av modellens träningsdata, inte av en neutral sanning.</li>
+            <li><span class="step-tag">Vilseledande tonalitet</span> modellerna är tränade att vara medgörliga och kan låta skenbart säkra eller smickrande även när de har fel.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="task">
+        <div class="task-num">2</div>
+        <div class="task-body">
+          <h3>Hjälpa låntagare hitta information</h3>
+          <p>En strategimodell för sökningen: anpassade instruktioner kan styra AI:ns svar, men kom ihåg att de bara är förslag till modellen – inte faktiska regler den måste följa. Använd den pragmatiska beslutstrappan för att avgöra när AI överhuvudtaget bör användas:</p>
+          <div style="overflow-x:auto; margin-top: 1rem;">
+            <table class="overview-table">
+              <thead>
+                <tr><th>Vilket är ditt syfte?</th><th>Måste det vara sant?</th><th>Har du domänkunskap?</th><th>Kan du använda AI?</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Nyfikenhet</td><td>Spelar ingen roll</td><td>Spelar ingen roll</td><td><span class="pill-yes">Ja! Absolut!</span></td></tr>
+                <tr><td>Utforskande sökning</td><td>Kanske</td><td>Spelar ingen roll</td><td><span class="pill-yes">Ja</span></td></tr>
+                <tr><td>Uppgiftsstyrd sökning</td><td>Ja</td><td>Ja</td><td><span class="pill-caution">Ja, men granska resultatet noga (överväg konsekvenserna)</span></td></tr>
+                <tr><td>Uppgiftsstyrd sökning</td><td>Ja</td><td>Nej</td><td><span class="pill-no">Nej! Kör traditionell informationssökning</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="task">
+        <div class="task-num">3</div>
+        <div class="task-body">
+          <h3>Hjälpa låntagare upptäcka missinformation</h3>
+          <p>En uppdaterad mall för källkritik i AI-eran – samma fyra klassiska kriterier, men med en MIK-fråga att ställa till AI-svaret:</p>
+          <div style="overflow-x:auto; margin-top: 1rem;">
+            <table class="overview-table">
+              <thead>
+                <tr><th>Kriterium</th><th>Klassisk källkritik</th><th>MIK-fråga att ställa</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Beroende</td><td>Är det en primärkälla eller andrahandsuppgift?</td><td class="mik-q">"Vilka källor bygger påståendet faktiskt på?" → Klicka på länkarna.</td></tr>
+                <tr><td>Äkthet</td><td>Är källan äkta eller förfalskad?</td><td class="mik-q">"Kan påståendet bekräftas hos en extern aktör?" → Har någon av källorna hög källtillit?</td></tr>
+                <tr><td>Tid</td><td>När skapades informationen?</td><td class="mik-q">"Hämtar modellen nutida fakta eller äldre träningsdata?" → Gjordes en websökning?</td></tr>
+                <tr><td>Tendens</td><td>Finns ett dolt syfte eller partiskhet?</td><td class="mik-q">"Speglar svaret bara mina egna ledande frågor?" → Granska din egen bias.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subhead">Upptäcka AI-genererat material</div>
+    <ul class="theory-list" style="margin-bottom: 2.2rem;">
+      <li><strong>Bilder och video</strong> – suddiga detaljer i bakgrunden, alltför starka eller mättade färger, felaktiga kroppsvinklar eller proportioner, samt en alltför perfekt ljussättning och vackra inzoomningar.</li>
+      <li><strong>Text</strong> – upprepande frasstruktur och övergångsord ("sammanfattningsvis", "det är viktigt att notera"), en omotiverat balanserad "å ena sidan – å andra sidan"-ton, listor i tretalsmönster, alltför putsad grammatik utan personlig röst, samt överanvända ord som "navigera", "landskap" och "spelar en avgörande roll".</li>
+      <li><strong>AI-detektorer</strong> – ger bara en sannolikhetsbedömning, inte ett bevis. Hög risk för falska positiva (särskilt för icke-modersmålstalare) och falska negativa (t.ex. omskriven text). Ska aldrig användas som enda underlag för ett beslut.</li>
+    </ul>
 
     <div class="subhead">Hemuppgift – Föreläsningsförfrågan i disken</div>
     <p class="section-sub" style="margin-bottom:1.5rem; padding-bottom:0; border-bottom:none;">Copilot + Perplexity eller ChatGPT · ca 20–30 min</p>
