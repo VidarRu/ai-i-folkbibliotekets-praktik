@@ -912,22 +912,28 @@
     <h1 class="section-title">Informationssökning och <em>AI</em></h1>
     <p class="section-sub">Hur du använder AI för research – utan att tappa källkritiken</p>
 
-    <div class="slides-link slides-missing">
+    <div class="slides-link">
       <span class="slides-icon">🖥️</span>
       <div>
-        <span style="color: var(--dim);">Presentationen från tillfället</span>
-        <span class="slides-desc">Läggs till efter tillfället</span>
+        <a href="material/del2-presentation.pdf" target="_blank">Presentationen från tillfället</a>
+        <span class="slides-desc">Bilderna som visades under Del 2</span>
       </div>
     </div>
 
     <div class="subhead">Teori</div>
-    <ul class="theory-list">
-      <li><strong>RAG</strong> – när AI:n avgör att den behöver fakta formulerar den en sökfråga, skickar den till en sökmotor, skrapar innehållet på träffsidorna och lägger in det i sitt kontextfönster – och formulerar sedan sitt svar utifrån det. Som en referensbibliotekarie som går till hyllan innan hon svarar.</li>
-      <li><strong>Deep Research</strong> och omvända kentaurer – du styr researchen, inte AI:n.</li>
-      <li><strong>Hallucinationer</strong> – enligt en studie från EBU (2025) hallucinerade ChatGPT i ca 30 % av sina svar, Gemini i ca 70 %. Felen kan vara påhittade källor, döda länkar, faktafel i kärninnehållet, överdrifter och dramatisering, snedvriden ton eller betoning, samt felaktiga eller konstruerade citat.</li>
-      <li><strong>Du är human in the loop</strong> – ansvaret för det slutgiltiga svaret stannar alltid hos dig, oavsett vilket verktyg som användes.</li>
-      <li><strong>Sex konkreta tips för AI-sökning:</strong> formulera tydliga frågor, prompta neutralt, utnyttja följdfrågor, utvärdera svaret, jämför modeller, och verifiera resultaten.</li>
-      <li><strong>Faktagranskning i två steg</strong> – låt ett verktyg skriva svaret, och ett annat verktyg kontrollera det.</li>
+
+    <p style="font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 1.05rem; color: var(--ink); margin-bottom: 0.7rem;">Så fungerar AI-driven informationssökning</p>
+    <p style="font-size: 0.92rem; line-height: 1.7; color: var(--dim); margin-bottom: 1rem;">En AI-modell som får en fråga avgör först om den behöver söka på nätet för att kunna svara. Om så är fallet formulerar modellen en sökfråga och skickar den till en sökmotor. Innehållet på de sidor som kommer upp som sökträffar hämtas sedan in och läggs i modellens kontextfönster – det vill säga det textunderlag den har tillgång till när den formulerar sitt svar. Utifrån detta underlag skapas sedan ett svar till användaren.</p>
+    <p style="font-size: 0.92rem; line-height: 1.7; color: var(--dim); margin-bottom: 1rem;">Detta är i grunden en klassisk RAG-sökning (Retrieval-Augmented Generation), där modellen kombinerar hämtad information med sin egen språkgenerering.</p>
+    <p style="font-size: 0.92rem; line-height: 1.7; color: var(--dim); margin-bottom: 1rem;">Trots detta arbetssätt förekommer fortfarande hallucinationer – alltså felaktigheter i det genererade svaret. Enligt en studie från EBU (2025) innehöll svar från ChatGPT hallucinationer i 30 procent av fallen, och från Gemini i så mycket som 70 procent.</p>
+    <p style="font-size: 0.92rem; color: var(--dim); margin-bottom: 0.6rem;">Felen kan bland annat bestå av:</p>
+    <ul class="theory-list" style="margin-bottom: 1.4rem;">
+      <li>Påhittade källor</li>
+      <li>Döda länkar</li>
+      <li>Faktafel i kärninnehållet</li>
+      <li>Överdrifter och dramatiseringar</li>
+      <li>Snedvriden ton eller betoning</li>
+      <li>Felaktiga eller konstruerade citat</li>
     </ul>
 
     <p class="welcome" style="font-size: 0.92rem; font-style: italic; color: var(--dim); margin-bottom: 2.2rem;">Under tillfället testade vi tillsammans Hallucinationstestet (Perplexity mot Google, på en fritt vald samtidsfråga) – live, i grupp.</p>
@@ -998,46 +1004,73 @@
       <li><strong>AI-detektorer</strong> – ger bara en sannolikhetsbedömning, inte ett bevis. Hög risk för falska positiva (särskilt för icke-modersmålstalare) och falska negativa (t.ex. omskriven text). Ska aldrig användas som enda underlag för ett beslut.</li>
     </ul>
 
-    <div class="subhead">Hemuppgift – Föreläsningsförfrågan i disken</div>
-    <p class="section-sub" style="margin-bottom:1.5rem; padding-bottom:0; border-bottom:none;">Copilot + valfri AI-tjänst med deep research · ca 30–45 min</p>
-
-    <div class="scenario-box">
-      <div class="scenario-label">Scenario</div>
-      <p>Du sitter i informationsdisken. En låntagare kommer fram och är intresserad av <strong>högerextremism</strong> – hur det högerextrema våldet har utvecklats i Sverige sedan millennieskiftet – och undrar om biblioteket kan arrangera en föreläsningskväll om det. Din uppgift: ta reda på vad som faktiskt gäller/hänt, och hitta en tänkbar föreläsare.</p>
+    <div class="subhead">Hemuppgifter</div>
+    <div class="label" style="margin-top:0;">Översikt</div>
+    <div style="overflow-x:auto; margin-bottom: 2rem;">
+      <table class="overview-table">
+        <thead>
+          <tr><th>#</th><th>Uppgift</th><th>Fokusområde</th><th>Verktyg</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>01</td><td>Jämförelsetestet</td><td>Jämföra sökresultat mellan tjänster</td><td>Google, Copilot, ChatGPT/Gemini</td></tr>
+          <tr><td>02</td><td>Den fördomsfulla AI</td><td>Bias i bildgenerering</td><td>Copilot, ChatGPT eller Gemini (bild)</td></tr>
+          <tr><td>03</td><td>Är det sant?</td><td>Källkritik &amp; AI:ns medgörlighet</td><td>Valfri AI-tjänst</td></tr>
+          <tr><td>04</td><td>Föreläsningsförfrågan i disken</td><td>Sammansatt research: bakgrund, föreläsare, affisch</td><td>Copilot + valfri deep research-tjänst</td></tr>
+        </tbody>
+      </table>
     </div>
-
-    <div class="callout">Känns ämnet inte bekvämt? Välj då ett eget – till exempel ett lokalhistoriskt ämne, eller ett annat aktuellt samhällsämne som faktiskt dykt upp i disken på sistone.</div>
 
     <div class="tasks">
       <div class="task">
         <div class="task-num">1</div>
         <div class="task-body">
-          <h3>Sök bakgrundsinformation – först i Copilot, sen med deep research</h3>
-          <p>Sök bakgrundsinformation om ämnet i Copilot – för jobbet saknar Copilot en egen deep research-funktion. Testa sedan samma sökning som en deep research (eller "djup efterforskning") i en valfri jämförelsetjänst, till exempel ChatGPT, Gemini eller Perplexity. Vad lyfter tjänsterna fram? Vad utelämnar de? Hur hanterar de ett politiskt känsligt ämne – och skiljer sig svaret åt beroende på om deep research användes eller inte?</p>
+          <h3>Jämförelsetestet</h3>
+          <ul class="steps-mini">
+            <li><span class="step-tag">Steg 1:</span> Välj en fråga du själv är nyfiken på – gärna en fritt vald samtidsfråga, likt Hallucinationstestet ni gjorde tillsammans under tillfället.</li>
+            <li><span class="step-tag">Steg 2:</span> Ställ samma fråga i Google (titta särskilt på AI-översikten/AI Summary), i Copilot, och i antingen ChatGPT eller Gemini.</li>
+            <li><span class="step-tag">Reflektion:</span> Hur skiljer sig resultaten åt mellan tjänsterna? Hur skiljer sig kvaliteten i svaren och källorna?</li>
+          </ul>
         </div>
       </div>
       <div class="task">
         <div class="task-num">2</div>
         <div class="task-body">
-          <h3>Hitta en föreläsare</h3>
-          <p>Se om du kan hitta en konkret person eller organisation som skulle kunna hålla en föreläsningskväll om ämnet – med namn, koppling till ämnet och gärna en kontaktväg. Målet är att göra sökningen tillräckligt konkret för att faktiskt landa i ett namn, inte bara ett allmänt resonemang.</p>
+          <h3>Den fördomsfulla AI</h3>
+          <p>Använd en AI-tjänst för bildskapning – Copilot, ChatGPT eller Gemini. Skapa bilder utifrån neutrala prompter, i stil med:</p>
+          <div class="prompt-example">"En framgångsrik chef som leder ett möte"</div>
+          <div class="prompt-example">"En person som städar ett kontor"</div>
+          <div class="prompt-example">"En bibliotekarie i arbete"</div>
+          <ul class="steps-mini">
+            <li><span class="step-tag">Reflektion:</span> Jämför resultaten. Vilka antaganden om kön, ålder, klass eller etnicitet har modellen gjort som ni inte bad om? Varför ser bilderna ut så här, och hur påverkar samma träningsdata era textsökningar?</li>
+          </ul>
         </div>
       </div>
       <div class="task">
         <div class="task-num">3</div>
         <div class="task-body">
           <h3>Är det sant? – försök lura AI:n</h3>
-          <p>Många AI-tjänster är programmerade att vara hjälpsamma och medgörliga – de genererar gärna ett svar som låter bra, även när sanningshalten är tveksam eller obefintlig. Källhanteringen skiljer sig också mellan tjänster: vissa söker på nätet, andra skriver enbart utifrån sin träningsdata utan att tala om det. Att en källa anges är alltså ingen garanti för att den stämmer.</p>
-          <p>Testa att lura din valfria AI-tjänst (Copilot, ChatGPT, Perplexity, Gemini eller annan) att svara fel. Prova till exempel:</p>
-          <div class="prompt-example">"Ge mig en gångvägsbeskrivning med gatunamn från Storgatan till Kyrkogatan i Karlstad."</div>
-          <p>Om svaret verkar stämma – ifrågasätt det och se om AI:n ändrar sig ändå, trots att den inte har någon egen möjlighet att kontrollera det.</p>
+          <p>Många AI-tjänster är programmerade att vara hjälpsamma och medgörliga – de genererar gärna ett svar som låter bra, även när sanningshalten är tveksam eller obefintlig.</p>
+          <ul class="steps-mini">
+            <li><span class="step-tag">Steg 1:</span> Välj ut någon typ av lokal information om din hemstad – t.ex. var något ligger, öppettider eller ett lokalt faktum du själv har koll på.</li>
+            <li><span class="step-tag">Steg 2:</span> Fråga en valfri AI-tjänst om det. Hävda sedan att du är från hemstaden och "vet bättre" – även om AI:n svarade rätt.</li>
+            <li><span class="step-tag">Reflektion:</span> Stod AI:n på sig, eller ändrade den sig bara för att du var bestämd? Vad säger det om hur mycket man kan lita på ett AI-svar som ifrågasätts?</li>
+          </ul>
         </div>
       </div>
       <div class="task">
         <div class="task-num">4</div>
         <div class="task-body">
-          <h3>Skapa en affisch<span class="optional-badge">Frivillig fördjupning</span></h3>
-          <p>Nu när du researchat ämnet och hittat en tänkbar föreläsare: testa att skapa en affisch till föreläsningskvällen med en valfri bildgenererande AI-tjänst. Låt affischen innehålla ämne, föreläsare och en påhittad tid och plats.</p>
+          <h3>Föreläsningsförfrågan i disken</h3>
+          <div class="scenario-box">
+            <div class="scenario-label">Scenario</div>
+            <p>Du sitter i informationsdisken. En låntagare kommer fram och är intresserad av <strong>högerextremism</strong> – hur det högerextrema våldet har utvecklats i Sverige sedan millennieskiftet – och undrar om biblioteket kan arrangera en föreläsningskväll om det. Din uppgift: ta reda på vad som faktiskt gäller/hänt, och hitta en tänkbar föreläsare.</p>
+          </div>
+          <div class="callout">Känns ämnet inte bekvämt? Välj då ett eget – till exempel ett lokalhistoriskt ämne, eller ett annat aktuellt samhällsämne som faktiskt dykt upp i disken på sistone.</div>
+          <ul class="steps-mini">
+            <li><span class="step-tag">Steg 1 – bakgrund:</span> Sök bakgrundsinformation om ämnet i Copilot – för jobbet saknar Copilot en egen deep research-funktion. Testa sedan samma sökning som en deep research (eller "djup efterforskning") i en valfri jämförelsetjänst, till exempel ChatGPT, Gemini eller Perplexity. Vad lyfter tjänsterna fram? Vad utelämnar de? Skiljer sig svaret åt beroende på om deep research användes eller inte?</li>
+            <li><span class="step-tag">Steg 2 – föreläsare:</span> Se om du kan hitta en konkret person eller organisation som skulle kunna hålla en föreläsningskväll om ämnet – med namn, koppling till ämnet och gärna en kontaktväg. Målet är att göra sökningen tillräckligt konkret för att faktiskt landa i ett namn, inte bara ett allmänt resonemang.</li>
+            <li><span class="step-tag">Frivillig fördjupning:</span> Skapa en affisch till föreläsningskvällen med en valfri bildgenererande AI-tjänst. Låt affischen innehålla ämne, föreläsare och en påhittad tid och plats.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -1049,7 +1082,6 @@
         <li>Vilket kändes mest pålitligt?</li>
         <li>Skulle du skicka svaret direkt till en kollega, eller behöver du alltid verifiera?</li>
         <li>Vem bär ansvaret om AI:n har fel?</li>
-        <li>Lyckades du få AI:n att säga något osant – och stod den på sig, eller ändrade den sig så fort du ifrågasatte?</li>
       </ul>
     </div>
 
