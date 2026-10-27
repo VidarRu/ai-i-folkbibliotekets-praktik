@@ -9,9 +9,13 @@
 <meta property="og:description" content="Det vi gick igenom, det du kan göra om med kollegor och det du kan testa vidare på egen hand.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#2c6249">
+<meta name="robots" content="noindex, nofollow">
 <script>
   document.documentElement.classList.add('js');
-  try { var t = localStorage.getItem('theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  try {
+    var t = localStorage.getItem('theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+    if (localStorage.getItem('aifp-gate') === 'd55beaabcb5b') document.documentElement.classList.add('unlocked');
+  } catch (e) {}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +24,37 @@
 <link rel="preload" as="image" href="assets/img/bokhylla.jpg">
 </head>
 <body>
+
+<!-- ═══════════════ STARTSIDA MED LÖSENORD ═══════════════ -->
+<div class="gate shelf-bg" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <audio id="gate-audio" src="assets/audio/startsida.mp3" preload="none" loop></audio>
+  <button class="gate-sound" type="button" aria-pressed="true" aria-label="Stäng av musiken">
+    <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>
+    <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m22 9-6 6"/><path d="m16 9 6 6"/></svg>
+    <span class="gate-sound-label">Musik</span>
+  </button>
+  <div class="gate-panel frost">
+    <div class="gate-terminal" aria-hidden="true">
+      <div class="gate-dots"><i></i><i></i><i></i><span>ai-folkbildaren — laddar</span></div>
+      <pre class="gate-log"></pre>
+      <div class="gate-meter"><div class="gate-bar"><span></span></div><div class="gate-pct">0%</div></div>
+    </div>
+    <div class="gate-main">
+      <span class="pill">AI Folkbildaren · Utbildningsserie i tre delar</span>
+      <div class="gate-title" id="gate-title" role="heading" aria-level="1">AI i <em>folkbibliotekets praktik</em></div>
+      <p class="gate-notice"><strong>© Vidar Kjerstadius, AI-Folkbildaren.</strong> Allt innehåll på den här sajten är upphovsrättsskyddat. Det får bara användas av personer som tillhör en arbetsgrupp eller organisation som har köpt in mina utbildningar. Inget av materialet får kopieras eller spridas utanför den organisationen, om inte tillstånd uttryckligen ges för enskilda verk.</p>
+      <form class="gate-form" autocomplete="on">
+        <label for="gate-pw">Lösenord</label>
+        <div class="gate-row">
+          <input id="gate-pw" name="password" type="password" autocomplete="current-password" required>
+          <button class="btn primary" type="submit">Gå in <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+        </div>
+        <p class="gate-error" role="alert" hidden>Fel lösenord – försök igen.</p>
+        <noscript><p class="gate-error">Sidan behöver JavaScript för att kunna öppnas. Slå på JavaScript i webbläsaren och ladda om sidan.</p></noscript>
+      </form>
+    </div>
+  </div>
+</div>
 
 <a class="skip-link" href="#om">Hoppa till innehållet</a>
 <div class="progress" aria-hidden="true"></div>
@@ -150,11 +185,10 @@
       <div class="block-rail"><div class="block-rail-inner" data-reveal="left">
         <div class="block-kicker">Principer</div>
         <h3 class="block-title">Sex saker att ta med dig</h3>
-        <p>Bläddra i sidled och klicka på en rubrik för att fälla ut texten.</p>
+        <p>Klicka på en rubrik för att fälla ut texten.</p>
       </div></div>
       <div class="block-body">
-        <div class="track-wrap">
-          <div class="track stagger from-right">
+        <div class="grid grid-3 acc-grid stagger">
             <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">🎲</span><span class="acc-head"><span class="acc-title">Sannolikt är inte samma sak som sant</span></span><span class="acc-icon" aria-hidden="true"></span></button>
               <div class="acc-panel"><div class="acc-inner"><div class="acc-content flush"><p>Generativ AI bygger på statistisk sannolikhet, vilket inte är samma sak som sanning.</p></div></div></div></div>
             <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">🗣️</span><span class="acc-head"><span class="acc-title">Säg vad du vill ha</span></span><span class="acc-icon" aria-hidden="true"></span></button>
@@ -168,13 +202,6 @@
             <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">🪜</span><span class="acc-head"><span class="acc-title">Ribban är låg</span></span><span class="acc-icon" aria-hidden="true"></span></button>
               <div class="acc-panel"><div class="acc-inner"><div class="acc-content flush"><p>Baskunskaperna ute i landet är enligt min erfarenhet låga, så det räcker långt att kunna lite mer än den genomsnittliga biblioteksbesökaren. Du behöver inte vara expert för att ordna en aktivitet, och gratisverktyg räcker långt.</p></div></div></div></div>
           </div>
-          <div class="track-controls">
-            <span class="track-hint">Dra eller bläddra</span>
-            <div class="track-dots" aria-hidden="true"></div>
-            <button class="track-btn" type="button" data-prev aria-label="Föregående"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
-            <button class="track-btn" type="button" data-next aria-label="Nästa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -245,8 +272,7 @@
         <p>Det enklaste sättet att förstå generativ AI är att börja med vad den inte är.</p>
       </div></div>
       <div class="block-body">
-        <div class="track-wrap">
-          <div class="track stagger from-right">
+        <div class="grid grid-3 acc-grid stagger">
             <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-head"><span class="acc-title">Inget vanligt program</span></span><span class="acc-icon" aria-hidden="true"></span></button>
               <div class="acc-panel"><div class="acc-inner"><div class="acc-content flush"><p>I Word ger Ctrl+C alltid samma resultat, för programmet är regelstyrt. Generativ AI jobbar i stället med slump och sannolikhet och skapar något nytt från början varje gång, utifrån mönster den har lärt sig.</p></div></div></div></div>
             <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-num">02</span><span class="acc-head"><span class="acc-title">Språkmodeller lär sig mönster</span></span><span class="acc-icon" aria-hidden="true"></span></button>
@@ -262,13 +288,6 @@
             <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-num">07</span><span class="acc-head"><span class="acc-title">Vill du fördjupa dig?</span></span><span class="acc-icon" aria-hidden="true"></span></button>
               <div class="acc-panel"><div class="acc-inner"><div class="acc-content flush"><p>Vill du fördjupa dig teoretiskt? <a href="https://course.elementsofai.com/se/" target="_blank" rel="noopener">Elements of AI</a> är en gratis webbkurs om hur AI fungerar.</p></div></div></div></div>
           </div>
-          <div class="track-controls">
-            <span class="track-hint">Dra eller bläddra</span>
-            <div class="track-dots" aria-hidden="true"></div>
-            <button class="track-btn" type="button" data-prev aria-label="Föregående"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
-            <button class="track-btn" type="button" data-next aria-label="Nästa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -279,7 +298,7 @@
         <p>Tre saker som går att göra med låg ribba. De är också ett bra sätt att öva på att prata med en språkmodell på olika sätt.</p>
       </div></div>
       <div class="block-body">
-        <div class="grid grid-3 stagger" style="align-items: start;">
+        <div class="grid grid-3 acc-grid stagger">
           <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">📚</span><span class="acc-head"><span class="acc-title">Bokrekommendationer</span><span class="acc-desc">Utnyttja följdfrågor</span></span><span class="acc-icon" aria-hidden="true"></span></button>
             <div class="acc-panel"><div class="acc-inner"><div class="acc-content flush">
               <p>En låntagare ber dig om tips på böcker inom en genre som du inte är så inläst på. Fråga om några böcker, författare eller vad det är i litteraturen som personen gillar. Mata in informationen till Copilot och be om förslag på liknande böcker, och fortsätt sedan i samma chatt med följdfrågor allteftersom du får mer information: berätta mer om författaren, vilka romaner har hen skrivit, hänger några av dem ihop som en serie?</p>
@@ -308,7 +327,7 @@
         <p>Sist visade jag en funktion som finns i alla stora språkmodeller. Har du en uppgift som återkommer kan du spara instruktionen och använda den om och om igen.</p>
       </div></div>
       <div class="block-body">
-        <div class="grid grid-2 stagger" style="align-items: start;">
+        <div class="grid grid-2 acc-grid stagger">
           <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">🤖</span><span class="acc-head"><span class="acc-title">Agenter i Copilot</span></span><span class="acc-icon" aria-hidden="true"></span></button>
             <div class="acc-panel"><div class="acc-inner"><div class="acc-content"><p>Du hittar dem i vänstermenyn. En agent är i praktiken en sparad prompt. Mina exempel är en bokrekommendatör, en brainstormer, en mötesassistent och en tillgänglighetsbot. Tillgänglighetsboten har en lång instruktion om klarspråk, inkluderande kommunikation och anpassning för personer med NPF, som jag aldrig orkar skriva om varje gång jag vill ha en text tillgänglighetsgranskad. Du skapar en ny agent under Agenter, eller så pratar du med agenten som skapar agenter.</p></div></div></div></div>
           <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">⚠️</span><span class="acc-head"><span class="acc-title">En begränsning att känna till</span></span><span class="acc-icon" aria-hidden="true"></span></button>
@@ -490,12 +509,11 @@
         <div class="subblock">
           <h4 class="h3" data-reveal="up">En kort historia</h4>
           <p class="prose" data-reveal="up">ChatGPT släpptes för snart fyra år sedan som en sorts prototyp. Ingen hade tänkt sig att folk skulle använda den för att söka information, men väldigt många gjorde det och ställde samma frågor som de ställde till Google. Problemet var att modellen tränats på data fram till ett visst datum och inte visste något om det som hänt efter det. Så man lade till webbsökning. Microsofts sökmotor Bing var först med att koppla in en chatt, och i ChatGPT kom ett tillägg som du själv måste godkänna. Året därpå lärde sig modellen att själv bedöma när den behöver söka. Sedan kom Googles AI-sammanfattningar till Sverige, och nu finns deep research, där modellen delar upp sig i små agenter som utför sökningen åt dig.</p>
-          <ol class="timeline stagger from-left" aria-label="AI-sökningens utveckling i korthet">
-            <li><span class="tl-n">01</span><b>ChatGPT som prototyp</b>Folk börjar söka information i den – men kunskapen tar slut vid ett visst datum.</li>
-            <li><span class="tl-n">02</span><b>Webbsökning läggs till</b>Bing kopplar in en chatt först, ChatGPT får ett tillägg du själv godkänner.</li>
-            <li><span class="tl-n">03</span><b>Modellen avgör själv</b>Året därpå bedömer modellen själv när den behöver söka.</li>
-            <li><span class="tl-n">04</span><b>Googles AI-översikter</b>AI-sammanfattningarna kommer till Sverige.</li>
-            <li><span class="tl-n">05</span><b>Deep research</b>Modellen delar upp sig i små agenter som söker åt dig.</li>
+          <ol class="timeline" aria-label="AI-sökningens utveckling 2022–2025">
+            <li style="--i: 0"><span class="tl-year">2022</span><b>Genombrottet för generativ AI</b><span>OpenAI lanserar ChatGPT den 30 november som en sorts prototyp. Många börjar direkt söka information i den – men modellen vet bara det som fanns i träningsdatan.</span></li>
+            <li style="--i: 1"><span class="tl-year">2023</span><b>Sökmotorer med AI</b><span>Webbsökning blir en funktion i Bing Chat och ChatGPT. Bing är först med att koppla in en chatt, och i ChatGPT kommer ett tillägg som du själv måste godkänna.</span></li>
+            <li style="--i: 2"><span class="tl-year">2024</span><b>AI söker på webben själv</b><span>ChatGPT får en integrerad webbsökning och modellen lär sig själv bedöma när den behöver söka.</span></li>
+            <li style="--i: 3"><span class="tl-year">2025</span><b>AI som primär sökmotor</b><span>Googles AI-sammanfattningar kommer till Sverige, och deep research finns i alla de stora AI-tjänsterna.</span></li>
           </ol>
         </div>
 
@@ -562,7 +580,7 @@
         <p>Jag utgick från Copilot eftersom det är vad ni har, även om det inte är den bästa tjänsten för att söka information. Deep research visade jag i ChatGPT.</p>
       </div></div>
       <div class="block-body">
-        <div class="grid grid-2 stagger" style="align-items: start;">
+        <div class="grid grid-2 acc-grid stagger">
           <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-head"><span class="acc-title">Ge sammanhang vid svåra referensfrågor</span></span><span class="acc-icon" aria-hidden="true"></span></button>
             <div class="acc-panel"><div class="acc-inner"><div class="acc-content flush">
               <p>Jag låtsades ha glömt hur man gallrar böcker i vårt bibliotekssystem Quria och skrev:</p>
@@ -606,8 +624,7 @@
 
         <div class="subblock">
           <h4 class="h3" data-reveal="up">Inställsamhet och bias</h4>
-          <div class="track-wrap">
-            <div class="track wide stagger from-right">
+          <div class="grid grid-3 acc-grid stagger">
               <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">🙇</span><span class="acc-head"><span class="acc-title">Inställsamhet</span></span><span class="acc-icon" aria-hidden="true"></span></button>
                 <div class="acc-panel"><div class="acc-inner"><div class="acc-content flush"><p>Modellerna är tränade att vara hjälpsamma och får belöning när användaren är nöjd. De människor som betygsätter svar ger dessutom gärna tummen upp åt sådant som bekräftar dem. Därför anpassar sig modellen efter hur du ställer frågan, och påpekar du ett problem i svaret rättar den sig ofta direkt och håller med dig, även när du har fel. Det är en tendens, inte något som alltid händer.</p></div></div></div></div>
               <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">⚖️</span><span class="acc-head"><span class="acc-title">Bias</span></span><span class="acc-icon" aria-hidden="true"></span></button>
@@ -619,13 +636,6 @@
               <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">📝</span><span class="acc-head"><span class="acc-title">Instruktioner är förslag, inte regler</span></span><span class="acc-icon" aria-hidden="true"></span></button>
                 <div class="acc-panel"><div class="acc-inner"><div class="acc-content flush"><p>Skriver du ”hitta inte på” eller ”använd bara säkra källor” är det inte en spärr, eftersom allt bygger på sannolikhet. Risken är att du invaggar dig själv i en falsk säkerhet.</p></div></div></div></div>
             </div>
-            <div class="track-controls">
-              <span class="track-hint">Dra eller bläddra</span>
-              <div class="track-dots" aria-hidden="true"></div>
-              <button class="track-btn" type="button" data-prev aria-label="Föregående"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
-              <button class="track-btn" type="button" data-next aria-label="Nästa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-            </div>
-          </div>
         </div>
 
         <div class="subblock">
@@ -656,7 +666,7 @@
             <div class="poster-body">
               <span class="pill">Affisch att ladda ner</span>
               <h4>AI vid informationssökning – Den pragmatiska beslutsmodellen</h4>
-              <p>Beslutsstegen som affisch, att sätta upp vid disken eller i personalrummet. Fri att använda under CC BY 4.0.</p>
+              <p>Beslutsstegen som affisch, att sätta upp vid disken eller i personalrummet. Affischen är licensierad under CC BY 4.0, så du får dela och använda den fritt så länge du anger Vidar Kjerstadius, AI-Folkbildaren, som upphovsperson.</p>
               <div class="btn-row">
                 <a class="btn primary sm" href="material/affischer/affisch-pragmatiska-beslutsmodellen.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Ladda ner PDF</a>
                 <a class="btn sm" href="material/affischer/affisch-pragmatiska-beslutsmodellen.jpg" download>Bild (JPG)</a>
@@ -696,14 +706,14 @@
             </div>
           </div>
           <div class="poster" data-reveal="right">
-            <button class="poster-thumb" type="button" data-lightbox data-full="material/affischer/affisch-kallkritik-i-ai-eran.jpg" data-pdf="material/affischer/affisch-kallkritik-i-ai-eran.pdf" data-title="Affisch: Källkritik i AI-eran – En ny tolkning" aria-label="Visa affischen Källkritik i AI-eran i större format"><img src="assets/img/affisch-kallkritik-i-ai-eran.jpg" alt="Affischen Källkritik i AI-eran – En ny tolkning" loading="lazy" width="640" height="857"></button>
+            <button class="poster-thumb" type="button" data-lightbox data-full="material/affischer/affisch-kallkritik-i-ai-eran.jpg?v=2" data-pdf="material/affischer/affisch-kallkritik-i-ai-eran.pdf?v=2" data-title="Affisch: Källkritik i AI-eran – En ny tolkning" aria-label="Visa affischen Källkritik i AI-eran i större format"><img src="assets/img/affisch-kallkritik-i-ai-eran.jpg?v=2" alt="Affischen Källkritik i AI-eran – En ny tolkning" loading="lazy" width="640" height="857"></button>
             <div class="poster-body">
               <span class="pill">Affisch att ladda ner</span>
               <h4>Källkritik i AI-eran – En ny tolkning</h4>
-              <p>De fyra klassiska kriterierna med en MIK-fråga för varje, samlade på en affisch.</p>
+              <p>De fyra klassiska kriterierna med en MIK-fråga för varje, samlade på en affisch. Licensierad under CC BY 4.0 – dela gärna, med angivande av Vidar Kjerstadius, AI-Folkbildaren.</p>
               <div class="btn-row">
-                <a class="btn primary sm" href="material/affischer/affisch-kallkritik-i-ai-eran.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Ladda ner PDF</a>
-                <a class="btn sm" href="material/affischer/affisch-kallkritik-i-ai-eran.jpg" download>Bild (JPG)</a>
+                <a class="btn primary sm" href="material/affischer/affisch-kallkritik-i-ai-eran.pdf?v=2" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Ladda ner PDF</a>
+                <a class="btn sm" href="material/affischer/affisch-kallkritik-i-ai-eran.jpg?v=2" download>Bild (JPG)</a>
               </div>
             </div>
           </div>
@@ -720,14 +730,14 @@
             <li><span>Ska du använda informationen till något viktigt? Då måste du verifiera resultatet.</span></li>
           </ol>
           <div class="poster" data-reveal="right">
-            <button class="poster-thumb" type="button" data-lightbox data-full="material/affischer/affisch-effektiv-ai-sokning.jpg" data-pdf="material/affischer/affisch-effektiv-ai-sokning.pdf" data-title="Affisch: Tips och tricks för effektiv AI-sökning" aria-label="Visa affischen Tips och tricks för effektiv AI-sökning i större format"><img src="assets/img/affisch-effektiv-ai-sokning.jpg" alt="Affischen Tips och tricks för effektiv AI-sökning" loading="lazy" width="631" height="900"></button>
+            <button class="poster-thumb" type="button" data-lightbox data-full="material/affischer/affisch-effektiv-ai-sokning.jpg?v=2" data-pdf="material/affischer/affisch-effektiv-ai-sokning.pdf?v=2" data-title="Affisch: Tips och tricks för effektiv AI-sökning" aria-label="Visa affischen Tips och tricks för effektiv AI-sökning i större format"><img src="assets/img/affisch-effektiv-ai-sokning.jpg?v=2" alt="Affischen Tips och tricks för effektiv AI-sökning" loading="lazy" width="631" height="900"></button>
             <div class="poster-body">
               <span class="pill">Affisch att ladda ner</span>
               <h4>Tips och tricks för effektiv AI-sökning</h4>
-              <p>Flödesschemat som affisch – att hänga upp på kontoret.</p>
+              <p>Flödesschemat som affisch – att hänga upp på kontoret. Licensierad under CC BY 4.0 – dela gärna, med angivande av Vidar Kjerstadius, AI-Folkbildaren.</p>
               <div class="btn-row">
-                <a class="btn primary sm" href="material/affischer/affisch-effektiv-ai-sokning.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Ladda ner PDF</a>
-                <a class="btn sm" href="material/affischer/affisch-effektiv-ai-sokning.jpg" download>Bild (JPG)</a>
+                <a class="btn primary sm" href="material/affischer/affisch-effektiv-ai-sokning.pdf?v=2" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Ladda ner PDF</a>
+                <a class="btn sm" href="material/affischer/affisch-effektiv-ai-sokning.jpg?v=2" download>Bild (JPG)</a>
               </div>
             </div>
           </div>
@@ -907,7 +917,7 @@
         </div>
         <div class="subblock">
           <h4 class="h3" data-reveal="up">Så ser praxis ut</h4>
-          <div class="grid grid-2 stagger" style="align-items: start;">
+          <div class="grid grid-2 acc-grid stagger">
             <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">✅</span><span class="acc-head"><span class="acc-title">Godkända verktyg</span></span><span class="acc-icon" aria-hidden="true"></span></button>
               <div class="acc-panel"><div class="acc-inner"><div class="acc-content"><p>De flesta kommuners AI-policyer säger att du bara ska använda verktyg man har avtal med, som Copilot med jobblicens. Vissa är strikta, andra mer flexibla beroende på syfte. Copilot är till exempel inte bra på att söka information, och eftersom informationssökning inte omfattas av GDPR eller sekretess finns det en viss större frihet där.</p></div></div></div></div>
             <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">💻</span><span class="acc-head"><span class="acc-title">Fråga IT, och berätta varför</span></span><span class="acc-icon" aria-hidden="true"></span></button>
@@ -999,8 +1009,7 @@
 
         <div class="subblock">
           <h4 class="h3" data-reveal="up">Så har jag använt det</h4>
-          <div class="track-wrap">
-            <div class="track stagger from-right">
+          <div class="grid grid-3 acc-grid stagger">
               <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">🗒️</span><span class="acc-head"><span class="acc-title">Mötesprotokoll</span></span><span class="acc-icon" aria-hidden="true"></span></button>
                 <div class="acc-panel"><div class="acc-inner"><div class="acc-content flush"><p>Jag lade in ett helt års protokoll och APT-anteckningar och frågade vilka beslut vi fattat om bibliotekssystemet Quria det året och när.</p></div></div></div></div>
               <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">📘</span><span class="acc-head"><span class="acc-title">Användarhandböcker</span></span><span class="acc-icon" aria-hidden="true"></span></button>
@@ -1014,13 +1023,6 @@
               <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">🎧</span><span class="acc-head"><span class="acc-title">Studio</span></span><span class="acc-icon" aria-hidden="true"></span></button>
                 <div class="acc-panel"><div class="acc-inner"><div class="acc-content flush"><p>Till höger kan du göra om källorna till bland annat presentationer, infografik, quiz, tankekartor och ljudöversikter. Ljudöversikten skapar en podcast om innehållet i dina källor. Effektivt om du vill ta till dig informationen men inte har tid att läsa.</p><p>Presentationerna skapar väldigt snygga presentationer utifrån dina källor. Mycket praktiskt för dig som ska göra presentationer utifrån dokument eller research.</p></div></div></div></div>
             </div>
-            <div class="track-controls">
-              <span class="track-hint">Dra eller bläddra</span>
-              <div class="track-dots" aria-hidden="true"></div>
-              <button class="track-btn" type="button" data-prev aria-label="Föregående"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
-              <button class="track-btn" type="button" data-next aria-label="Nästa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-            </div>
-          </div>
           <div class="callout tip" data-reveal="up"><p><strong>Obs!</strong> Detta är bara för material som är icke-känsligt, enligt klassificeringen ovan.</p></div>
         </div>
 
@@ -1048,8 +1050,7 @@
           <div class="card feature"><span class="icon-box" aria-hidden="true">🪞</span><h4>Vilseledande tonalitet</h4><p>De tenderar att stryka dig medhårs och bekräfta det du redan tycker.</p></div>
         </div>
         <p class="prose" data-reveal="up"><a href="#sok-battre">Flödesschemat</a> och <a href="#kallkritik-ai-eran">källkritiktabellen</a> från Del 2 täcker de två andra spåren, hitta information och upptäcka missinformation. Här är sex aktiviteter som kopplar till dem. Du behöver inte kunna mycket. Baskunskaperna ute i landet är låga, så det räcker att du kan lite mer för att kunna ordna något med ett tydligt fokus. Fler programidéer hittar du i <a href="#bonus">bonusfliken</a>.</p>
-        <div class="track-wrap">
-          <div class="track wide stagger from-right">
+        <div class="grid grid-3 acc-grid stagger">
             <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-head"><span class="acc-title">Folkbildning: Vem är rädd för AI?</span><span class="acc-desc">En studiecirkel eller fikagrupp för nybörjare där du avdramatiserar tekniken.</span></span><span class="acc-icon" aria-hidden="true"></span></button>
               <div class="acc-panel"><div class="acc-inner"><div class="acc-content flush">
                 <p>Det finns mycket hype, och mycket sensationism och rädsla, vilket kan verka otäckt för den som inte är påläst. Med lite kunskapsspridning kan man gå från rädsla till förståelse. Jag lät mig inspireras av en grupp som Umeå stadsbibliotek körde i fjol, mest med seniorer. Jag testade det på mitt eget bibliotek och fick tre deltagare, också seniorer. Jag använde två material.</p>
@@ -1097,13 +1098,6 @@
                 <p>Det kallas jailbreaking när man får modellen att gå emot sin träning eller sina instruktioner. Säkerhetsträningen är ofta en tunn fernissa ovanpå modellen. Den kan prata om de här sakerna, den är bara tränad att inte göra det.</p>
               </div></div></div></div>
           </div>
-          <div class="track-controls">
-            <span class="track-hint">Dra eller bläddra</span>
-            <div class="track-dots" aria-hidden="true"></div>
-            <button class="track-btn" type="button" data-prev aria-label="Föregående"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
-            <button class="track-btn" type="button" data-next aria-label="Nästa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -1176,7 +1170,7 @@
         <p>Klicka på en idé för att se hur den går till.</p>
       </div></div>
       <div class="block-body">
-        <div class="grid grid-2 stagger" style="align-items: start;">
+        <div class="grid grid-2 acc-grid stagger">
           <div class="acc"><button class="acc-btn" aria-expanded="false"><span class="acc-emoji" aria-hidden="true">📖</span><span class="acc-head"><span class="acc-title">För vuxna: Den oändliga novellen</span><span class="acc-desc">Interaktivt skrivande där deltagarna styr handlingen.</span><span class="prog-tags"><span>⏱ 60–90 min</span><span>🎯 Vuxna</span><span>📺 Storbildsskärm</span><span>🤖 Text-AI: ChatGPT eller Gemini</span></span></span><span class="acc-icon" aria-hidden="true"></span></button>
             <div class="acc-panel"><div class="acc-inner"><div class="acc-content">
               <ul class="step-list">
@@ -1231,7 +1225,7 @@
       <div class="block-rail"><div class="block-rail-inner" data-reveal="left">
         <div class="block-kicker">Materialhyllan</div>
         <h3 class="block-title">Allt material samlat</h3>
-        <p>Presentationerna, inspelningarna och affischerna från alla tre tillfällena på ett ställe.</p>
+        <p>Presentationerna, inspelningarna och affischerna från alla tre tillfällena på ett ställe. Affischerna får spridas fritt under CC BY 4.0; övrigt material är till för er organisation.</p>
       </div></div>
       <div class="block-body">
         <div class="subblock">
@@ -1243,14 +1237,14 @@
               <div class="btn-row"><a class="btn primary sm" href="material/affischer/affisch-pragmatiska-beslutsmodellen.pdf" download>PDF</a><a class="btn sm" href="material/affischer/affisch-pragmatiska-beslutsmodellen.jpg" download>JPG</a></div>
             </div>
             <div class="poster-tile">
-              <button class="poster-thumb" type="button" data-lightbox data-full="material/affischer/affisch-kallkritik-i-ai-eran.jpg" data-pdf="material/affischer/affisch-kallkritik-i-ai-eran.pdf" data-title="Affisch: Källkritik i AI-eran – En ny tolkning" aria-label="Visa affischen Källkritik i AI-eran i större format"><img src="assets/img/affisch-kallkritik-i-ai-eran.jpg" alt="Affischen Källkritik i AI-eran – En ny tolkning" loading="lazy" width="640" height="857"></button>
+              <button class="poster-thumb" type="button" data-lightbox data-full="material/affischer/affisch-kallkritik-i-ai-eran.jpg?v=2" data-pdf="material/affischer/affisch-kallkritik-i-ai-eran.pdf?v=2" data-title="Affisch: Källkritik i AI-eran – En ny tolkning" aria-label="Visa affischen Källkritik i AI-eran i större format"><img src="assets/img/affisch-kallkritik-i-ai-eran.jpg?v=2" alt="Affischen Källkritik i AI-eran – En ny tolkning" loading="lazy" width="640" height="857"></button>
               <h4>Källkritik i AI-eran</h4>
-              <div class="btn-row"><a class="btn primary sm" href="material/affischer/affisch-kallkritik-i-ai-eran.pdf" download>PDF</a><a class="btn sm" href="material/affischer/affisch-kallkritik-i-ai-eran.jpg" download>JPG</a></div>
+              <div class="btn-row"><a class="btn primary sm" href="material/affischer/affisch-kallkritik-i-ai-eran.pdf?v=2" download>PDF</a><a class="btn sm" href="material/affischer/affisch-kallkritik-i-ai-eran.jpg?v=2" download>JPG</a></div>
             </div>
             <div class="poster-tile">
-              <button class="poster-thumb" type="button" data-lightbox data-full="material/affischer/affisch-effektiv-ai-sokning.jpg" data-pdf="material/affischer/affisch-effektiv-ai-sokning.pdf" data-title="Affisch: Tips och tricks för effektiv AI-sökning" aria-label="Visa affischen Tips och tricks för effektiv AI-sökning i större format"><img src="assets/img/affisch-effektiv-ai-sokning.jpg" alt="Affischen Tips och tricks för effektiv AI-sökning" loading="lazy" width="631" height="900"></button>
+              <button class="poster-thumb" type="button" data-lightbox data-full="material/affischer/affisch-effektiv-ai-sokning.jpg?v=2" data-pdf="material/affischer/affisch-effektiv-ai-sokning.pdf?v=2" data-title="Affisch: Tips och tricks för effektiv AI-sökning" aria-label="Visa affischen Tips och tricks för effektiv AI-sökning i större format"><img src="assets/img/affisch-effektiv-ai-sokning.jpg?v=2" alt="Affischen Tips och tricks för effektiv AI-sökning" loading="lazy" width="631" height="900"></button>
               <h4>Tips och tricks för effektiv AI-sökning</h4>
-              <div class="btn-row"><a class="btn primary sm" href="material/affischer/affisch-effektiv-ai-sokning.pdf" download>PDF</a><a class="btn sm" href="material/affischer/affisch-effektiv-ai-sokning.jpg" download>JPG</a></div>
+              <div class="btn-row"><a class="btn primary sm" href="material/affischer/affisch-effektiv-ai-sokning.pdf?v=2" download>PDF</a><a class="btn sm" href="material/affischer/affisch-effektiv-ai-sokning.jpg?v=2" download>JPG</a></div>
             </div>
           </div>
         </div>
@@ -1344,13 +1338,16 @@
       <h3>Kontakt</h3>
       <ul class="foot-links">
         <li><a href="mailto:vidar.kjerstadius@gmail.com">vidar.kjerstadius@gmail.com</a></li>
-        <li><a href="https://www.linkedin.com/in/vidarkjerstadius" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://www.linkedin.com/in/vidar-kjerstadius-09a747255/" target="_blank" rel="noopener">LinkedIn</a></li>
         <li><a href="https://www.facebook.com/profile.php?id=61569294428546" target="_blank" rel="noopener">Facebook</a></li>
         <li><a href="https://www.aifolkbildaren.se" target="_blank" rel="noopener">aifolkbildaren.se</a></li>
       </ul>
     </div>
   </div>
-  <p class="foot-small">AI i folkbibliotekets praktik · AI Folkbildaren</p>
+  <div class="foot-small">
+    <p>© 2026 Vidar Kjerstadius, AI-Folkbildaren. Allt innehåll är upphovsrättsskyddat och får bara användas inom organisationer som köpt in utbildningen. Affischerna får spridas fritt under <a href="https://creativecommons.org/licenses/by/4.0/deed.sv" target="_blank" rel="noopener">CC BY 4.0</a>.</p>
+    <p>AI i folkbibliotekets praktik · AI Folkbildaren · <button type="button" class="link-btn" data-lock>Lås sidan igen</button></p>
+  </div>
 </footer>
 
 <dialog class="lightbox" id="lightbox" aria-label="Affisch i större format">
