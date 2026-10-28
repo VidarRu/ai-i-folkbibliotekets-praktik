@@ -233,8 +233,7 @@
      den här webbläsaren (localStorage) och syns inte för någon annan. */
   var TASKS_KEY = 'aifp-uppgifter';
   var tasks = Array.prototype.slice.call(document.querySelectorAll('[data-task][id]'));
-  var tasksPanel = document.getElementById('framsteg');
-  var navRing = document.querySelector('.nav-progress');
+  var navProgress = document.querySelector('.nav-progress');
   var medal = document.getElementById('medal');
   var medalBtn = document.querySelector('[data-medal-open]');
   var done = {};
@@ -268,14 +267,10 @@
   }
 
   function updateTasks(justChecked) {
-    var count = 0, perPart = {};
+    var count = 0;
     tasks.forEach(function (el) {
-      var part = el.closest('[data-part]');
-      var key = part ? part.getAttribute('data-part') : '';
-      var p = perPart[key] || (perPart[key] = { done: 0, total: 0 });
       var isDone = !!done[el.id];
-      p.total++;
-      if (isDone) { count++; p.done++; }
+      if (isDone) count++;
       el.classList.toggle('is-done', isDone);
       var sr = el.querySelector(':scope > .acc-btn .task-sr');
       if (sr) sr.textContent = isDone ? ' (genomförd)' : '';
@@ -286,30 +281,16 @@
     var pct = total ? Math.floor(count / total * 100) : 0;
     var complete = total > 0 && count === total;
 
-    if (navRing) {
-      navRing.style.setProperty('--p', pct);
-      navRing.querySelector('.np-pct').textContent = pct;
-      navRing.setAttribute('aria-label', 'Dina framsteg: ' + pct + ' procent av uppgifterna genomförda');
-      navRing.classList.toggle('complete', complete);
-    }
-    if (tasksPanel) {
-      tasksPanel.querySelector('[data-tp-pct]').textContent = pct + ' %';
-      tasksPanel.querySelector('[data-tp-count]').textContent = count + ' av ' + total;
-      var bar = tasksPanel.querySelector('.tp-bar');
+    if (navProgress) {
+      var bar = navProgress.querySelector('.np-bar');
       bar.style.setProperty('--p', pct);
       bar.setAttribute('aria-valuenow', pct);
-      tasksPanel.querySelectorAll('[data-tp-part]').forEach(function (span) {
-        var p = perPart[span.getAttribute('data-tp-part')] || { done: 0, total: 0 };
-        span.textContent = p.done + '/' + p.total;
-        span.parentNode.classList.toggle('full', p.total > 0 && p.done === p.total);
-      });
+      bar.setAttribute('aria-valuetext', pct + ' %, ' + count + ' av ' + total + ' uppgifter genomförda');
+      navProgress.querySelector('.np-pct').textContent = pct + ' %';
+      navProgress.title = count + ' av ' + total + ' workshopövningar och hemuppgifter genomförda';
+      navProgress.classList.toggle('complete', complete);
     }
-    if (medalBtn) {
-      medalBtn.disabled = !complete;
-      medalBtn.querySelector('[data-medal-label]').textContent = complete
-        ? 'Fullfjädrad AI-folkbildare – visa medaljen'
-        : 'Låst – gör alla uppgifter för att få medaljen';
-    }
+    if (medalBtn) medalBtn.hidden = !complete;
     // Grattisrutan visas när den sista bocken sätts, inte vid sidladdning
     if (complete && justChecked) setTimeout(showMedal, reduceMotion ? 0 : 450);
   }
@@ -343,16 +324,6 @@
   if (medal) {
     medal.addEventListener('click', function (e) {
       if (e.target === medal || e.target.hasAttribute('data-medal-close')) medal.close();
-    });
-  }
-  var resetBtn = document.querySelector('[data-tp-reset]');
-  if (resetBtn) {
-    resetBtn.addEventListener('click', function () {
-      if (!window.confirm('Vill du nollställa dina framsteg? Alla bockar tas bort.')) return;
-      done = {};
-      saveTasks();
-      document.querySelectorAll('.task-done input').forEach(function (i) { i.checked = false; });
-      updateTasks(false);
     });
   }
   updateTasks(false);
