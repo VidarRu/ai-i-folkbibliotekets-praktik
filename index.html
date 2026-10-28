@@ -25,6 +25,23 @@
 </head>
 <body>
 
+<!-- Medaljen som delas ut när alla uppgifter är gjorda (används i framstegspanelen och i grattisrutan) -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="medalj-kant" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3cf63"/><stop offset="1" stop-color="#9a6a12"/></linearGradient>
+    <radialGradient id="medalj-yta" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff3c2"/><stop offset=".45" stop-color="#f2c14e"/><stop offset="1" stop-color="#c38c1b"/></radialGradient>
+    <symbol id="medalj" viewBox="0 0 160 200">
+      <path d="M44 0h30l28 94H72z" fill="#2a6b70"/>
+      <path d="M86 0h30L88 94H58z" fill="#8a3b46"/>
+      <path d="M53 0h5l28 94h-5zM102 0h5L79 94h-5z" fill="#fff" opacity=".28"/>
+      <rect x="56" y="84" width="48" height="16" rx="4" fill="url(#medalj-kant)"/>
+      <circle cx="80" cy="140" r="58" fill="url(#medalj-kant)"/>
+      <circle cx="80" cy="140" r="47" fill="url(#medalj-yta)" stroke="#fff6d0" stroke-opacity=".75" stroke-width="2"/>
+      <path d="M80.0 114.0 L86.5 131.1 L104.7 132.0 L90.5 143.4 L95.3 161.0 L80.0 151.0 L64.7 161.0 L69.5 143.4 L55.3 132.0 L73.5 131.1Z" fill="#a8740f" stroke="#fff3c2" stroke-width="1.5" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
 <!-- ═══════════════ STARTSIDA MED LÖSENORD ═══════════════ -->
 <div class="gate shelf-bg" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
   <audio id="gate-audio" src="assets/audio/startsida.mp3" preload="none" loop></audio>
@@ -73,6 +90,10 @@
       <a href="#bonus">Bonus</a>
       <a href="#resurser">Resurser</a>
     </nav>
+    <a class="nav-progress" href="#framsteg" aria-label="Dina framsteg: 0 procent av uppgifterna genomförda" style="--p: 0">
+      <svg viewBox="0 0 36 36" aria-hidden="true"><circle class="np-track" cx="18" cy="18" r="15.5"/><circle class="np-fill" cx="18" cy="18" r="15.5" pathLength="100"/></svg>
+      <span class="np-pct" aria-hidden="true">0</span>
+    </a>
     <button class="theme-toggle" type="button" aria-label="Växla mellan ljust och mörkt läge">
       <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
       <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
@@ -135,6 +156,27 @@
     <a href="#bonus" data-part="bonus"><span class="toc-num">Bonus</span><span class="toc-title">Program&shy;verksamhet</span><span class="toc-desc">Programidéer och frivillig fördjupning</span></a>
     <a href="#resurser" data-part="res"><span class="toc-num">Resurser</span><span class="toc-title">Resurser</span><span class="toc-desc">Artiklar, böcker, poddar och verktyg</span></a>
   </nav>
+
+  <div class="tasks-panel frost" id="framsteg" data-reveal="up" role="region" aria-labelledby="framsteg-titel">
+    <div class="tp-main">
+      <div class="tp-head">
+        <h2 class="tp-title" id="framsteg-titel">Dina framsteg</h2>
+        <span class="tp-pct" data-tp-pct>0 %</span>
+      </div>
+      <div class="tp-bar" role="progressbar" aria-labelledby="framsteg-titel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="--p: 0"><span></span></div>
+      <p class="tp-text"><strong data-tp-count>0 av 0</strong> workshopövningar och hemuppgifter genomförda. Bocka i <em>Uppgiften genomförd</em> längst ner i varje uppgift. Framstegen sparas bara i den här webbläsaren.</p>
+      <ul class="tp-parts">
+        <li data-part="del1"><a href="#del1">Del 1</a><span data-tp-part="del1">0/0</span></li>
+        <li data-part="del2"><a href="#del2">Del 2</a><span data-tp-part="del2">0/0</span></li>
+        <li data-part="del3"><a href="#del3">Del 3</a><span data-tp-part="del3">0/0</span></li>
+        <li class="tp-reset-item"><button class="tp-reset" type="button" data-tp-reset>Nollställ</button></li>
+      </ul>
+    </div>
+    <button class="tp-medal" type="button" data-medal-open disabled>
+      <svg viewBox="0 0 160 200" aria-hidden="true"><use href="#medalj"/></svg>
+      <span class="tp-medal-label" data-medal-label>Låst – gör alla uppgifter för att få medaljen</span>
+    </button>
+  </div>
 </section>
 
 <main>
@@ -347,7 +389,7 @@
         <p>Det här är övningarna vi gjorde på tillfället. De fungerar lika bra i personalgruppen, och de är ett bra sätt att öva på att formulera sig.</p>
       </div></div>
       <div class="block-body stagger">
-        <div class="acc" id="d1-bokjakten"><button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-head"><span class="acc-title">Bokjakten</span><span class="acc-desc">Pussla ihop fragmentarisk information om en bok – gör den med minst en kollega</span></span><span class="acc-icon" aria-hidden="true"></span></button>
+        <div class="acc" id="d1-bokjakten" data-task><button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-head"><span class="acc-title">Bokjakten</span><span class="acc-desc">Pussla ihop fragmentarisk information om en bok – gör den med minst en kollega</span></span><span class="acc-icon" aria-hidden="true"></span></button>
           <div class="acc-panel"><div class="acc-inner"><div class="acc-content">
             <p>Den här övningen utgår från en klassisk situation i disken. Det kommer en låntagare som läst en bok för länge sedan. Den handlar om en kvinna som får ett brev, och omslaget var blått. Kan du hjälpa till? En väl beläst bibliotekarie löser det oftast bättre än en AI, men vi kan inte alla vara experter på allt. Då är det inget dumt knep att ta hjälp av en språkmodell, som är bra på att pussla ihop fragmentarisk information. Gör övningen med minst en kollega. Ta med var sin bok och visa inte omslaget.</p>
             <ul class="step-list">
@@ -360,7 +402,7 @@
             <div class="callout tip"><p class="callout-title">💡 Tips för disken</p><p>När en låntagare kommer med en vag boktitel kan det finnas en pedagogisk poäng i att låtsas vara lite dum, även om du redan vet svaret. Dela skärmen och låt låntagaren se när du söker med en AI. Medan du gör det kan du förklara hur tekniken funkar och att svaren inte ska litas på utan att dubbelkollas, eftersom den jobbar med sannolikhet och inte med sanning. Och det är ett kul sätt att leka tillsammans.</p></div>
           </div></div></div>
         </div>
-        <div class="acc" id="d1-bollplank"><button class="acc-btn" aria-expanded="false"><span class="acc-num">02</span><span class="acc-head"><span class="acc-title">AI som bollplank</span><span class="acc-desc">Se hur mycket det du själv skriver betyder – max två följdfrågor</span></span><span class="acc-icon" aria-hidden="true"></span></button>
+        <div class="acc" id="d1-bollplank" data-task><button class="acc-btn" aria-expanded="false"><span class="acc-num">02</span><span class="acc-head"><span class="acc-title">AI som bollplank</span><span class="acc-desc">Se hur mycket det du själv skriver betyder – max två följdfrågor</span></span><span class="acc-icon" aria-hidden="true"></span></button>
           <div class="acc-panel"><div class="acc-inner"><div class="acc-content">
             <p>Den här övningen handlar om att se hur mycket det du själv skriver betyder. Ni jobbar i grupper och har max två följdfrågor, så ni måste prata ihop er om vad ni ska skriva.</p>
             <ul class="step-list">
@@ -396,7 +438,7 @@
           </table>
         </div>
         <div class="stagger">
-          <div class="acc" id="d1-hu1"><button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-head"><span class="acc-title">Prompt-pusslet</span><span class="acc-desc">Strukturerad vs. naturlig strategi · Copilot</span></span><span class="acc-icon" aria-hidden="true"></span></button>
+          <div class="acc" id="d1-hu1" data-task><button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-head"><span class="acc-title">Prompt-pusslet</span><span class="acc-desc">Strukturerad vs. naturlig strategi · Copilot</span></span><span class="acc-icon" aria-hidden="true"></span></button>
             <div class="acc-panel"><div class="acc-inner"><div class="acc-content">
               <p>Öva på de två strategier vi gick igenom: den strukturerade och den naturliga. Syftet är att testa hur samma grundidé tas emot av AI:n beroende på hur du formulerar dig.</p>
               <ul class="step-list">
@@ -406,7 +448,7 @@
               </ul>
             </div></div></div>
           </div>
-          <div class="acc" id="d1-hu2"><button class="acc-btn" aria-expanded="false"><span class="acc-num">02</span><span class="acc-head"><span class="acc-title">Skrivarassistenten</span><span class="acc-desc">Kommunikation &amp; textproduktion · Copilot</span></span><span class="acc-icon" aria-hidden="true"></span></button>
+          <div class="acc" id="d1-hu2" data-task><button class="acc-btn" aria-expanded="false"><span class="acc-num">02</span><span class="acc-head"><span class="acc-title">Skrivarassistenten</span><span class="acc-desc">Kommunikation &amp; textproduktion · Copilot</span></span><span class="acc-icon" aria-hidden="true"></span></button>
             <div class="acc-panel"><div class="acc-inner"><div class="acc-content">
               <p>Använd AI för att effektivisera din kommunikation med en befintlig text (t.ex. ett internt rutindokument, information från er hemsida eller ett programblad).</p>
               <p class="small">Har du inget eget dokument till hands? Testa med ett av dessa exempel:</p>
@@ -422,7 +464,7 @@
               </ul>
             </div></div></div>
           </div>
-          <div class="acc" id="d1-hu3"><button class="acc-btn" aria-expanded="false"><span class="acc-num">03</span><span class="acc-head"><span class="acc-title">Skapa din första AI-agent</span><span class="acc-desc">Skapa en agent i Copilot · Copilot</span></span><span class="acc-icon" aria-hidden="true"></span></button>
+          <div class="acc" id="d1-hu3" data-task><button class="acc-btn" aria-expanded="false"><span class="acc-num">03</span><span class="acc-head"><span class="acc-title">Skapa din första AI-agent</span><span class="acc-desc">Skapa en agent i Copilot · Copilot</span></span><span class="acc-icon" aria-hidden="true"></span></button>
             <div class="acc-panel"><div class="acc-inner"><div class="acc-content">
               <div class="callout plain"><p>🎬 Vill du repetera genomgången? <a href="https://youtu.be/Tsn7YPtW_38" target="_blank" rel="noopener">Se videoinstruktionen</a> för hur du bygger en egen agent.</p></div>
               <p>Skapa en personlig agent (Copilot Agent) som motsvarar ett återkommande användningsområde i ditt arbete. Testa den på en riktig arbetsuppgift.</p>
@@ -436,7 +478,7 @@
               </ul>
             </div></div></div>
           </div>
-          <div class="acc" id="d1-hu4"><button class="acc-btn" aria-expanded="false"><span class="acc-num">04</span><span class="acc-head"><span class="acc-title">Personliga inställningar &amp; minnesfunktioner</span><span class="acc-desc">Personliga anpassningar · Copilot</span></span><span class="acc-icon" aria-hidden="true"></span></button>
+          <div class="acc" id="d1-hu4" data-task><button class="acc-btn" aria-expanded="false"><span class="acc-num">04</span><span class="acc-head"><span class="acc-title">Personliga inställningar &amp; minnesfunktioner</span><span class="acc-desc">Personliga anpassningar · Copilot</span></span><span class="acc-icon" aria-hidden="true"></span></button>
             <div class="acc-panel"><div class="acc-inner"><div class="acc-content">
               <div class="callout plain"><p>🎬 Vill du repetera det här momentet? <a href="https://youtu.be/X85uDtjwiMY" target="_blank" rel="noopener">Kika på videoinstruktionen</a> för en genomgång.</p></div>
               <p>Aktivera Copilots minnesfunktioner och se hur AI:n svarar annorlunda utifrån dina egna inställningar.</p>
@@ -771,7 +813,7 @@
         <h3 class="block-title">Gör om dem med kollegor</h3>
       </div></div>
       <div class="block-body stagger">
-        <div class="acc" id="d2-hallucinationstestet"><button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-head"><span class="acc-title">Hallucinationstestet</span><span class="acc-desc">Jämför hur olika tjänster svarar på samma fråga – och granska dem själv</span></span><span class="acc-icon" aria-hidden="true"></span></button>
+        <div class="acc" id="d2-hallucinationstestet" data-task><button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-head"><span class="acc-title">Hallucinationstestet</span><span class="acc-desc">Jämför hur olika tjänster svarar på samma fråga – och granska dem själv</span></span><span class="acc-icon" aria-hidden="true"></span></button>
           <div class="acc-panel"><div class="acc-inner"><div class="acc-content">
             <p>Du jämför hur olika tjänster svarar på samma fråga, och du granskar dem själv. Gör det med minst en kollega.</p>
             <ul class="step-list">
@@ -783,7 +825,7 @@
               <div class="acc-panel"><div class="acc-inner"><div class="acc-content flush"><p>En grupp frågade om handsken i sitt kommunvapen och fick tre helt olika förklaringar, allt från ett gammalt sigill till en handskfabrik och en symbol för resande. Historik och årtal var ungefär lika. I EBU-studien hade det räknats som ett fel trots att det mesta var rätt. En annan grupp frågade om ett lokalt kulturpris och fick likartade svar men med olika källor. Det kan vara ett bra tecken, eller så utgår alla från samma pressmeddelande. Då får man hoppas att det var korrekt.</p></div></div></div></div>
           </div></div></div>
         </div>
-        <div class="acc" id="d2-fordomsfulla"><button class="acc-btn" aria-expanded="false"><span class="acc-num">02</span><span class="acc-head"><span class="acc-title">Den fördomsfulla AI</span><span class="acc-desc">Skapa bilder från neutrala prompter och se vilka antaganden modellen gör</span></span><span class="acc-icon" aria-hidden="true"></span></button>
+        <div class="acc" id="d2-fordomsfulla" data-task><button class="acc-btn" aria-expanded="false"><span class="acc-num">02</span><span class="acc-head"><span class="acc-title">Den fördomsfulla AI</span><span class="acc-desc">Skapa bilder från neutrala prompter och se vilka antaganden modellen gör</span></span><span class="acc-icon" aria-hidden="true"></span></button>
           <div class="acc-panel"><div class="acc-inner"><div class="acc-content">
             <p>Använd en AI-tjänst för bildskapning, till exempel Copilot, ChatGPT eller Gemini. Skapa bilder utifrån neutrala prompter, i stil med:</p>
             <div class="prompts">
@@ -820,7 +862,7 @@
           </table>
         </div>
         <div class="stagger">
-          <div class="acc" id="d2-hu1"><button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-head"><span class="acc-title">Är det sant? – försök lura AI:n</span><span class="acc-desc">Källkritik &amp; AI:ns medgörlighet · Valfri AI-tjänst</span></span><span class="acc-icon" aria-hidden="true"></span></button>
+          <div class="acc" id="d2-hu1" data-task><button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-head"><span class="acc-title">Är det sant? – försök lura AI:n</span><span class="acc-desc">Källkritik &amp; AI:ns medgörlighet · Valfri AI-tjänst</span></span><span class="acc-icon" aria-hidden="true"></span></button>
             <div class="acc-panel"><div class="acc-inner"><div class="acc-content">
               <p>Många AI-tjänster är programmerade att vara hjälpsamma och medgörliga – de genererar gärna ett svar som låter bra, även när sanningshalten är tveksam eller obefintlig.</p>
               <ul class="step-list">
@@ -830,7 +872,7 @@
               </ul>
             </div></div></div>
           </div>
-          <div class="acc" id="d2-hu2"><button class="acc-btn" aria-expanded="false"><span class="acc-num">02</span><span class="acc-head"><span class="acc-title">Föreläsningsförfrågan i disken</span><span class="acc-desc">Sammansatt research: bakgrund, föreläsare, affisch · Copilot + valfri deep research-tjänst</span></span><span class="acc-icon" aria-hidden="true"></span></button>
+          <div class="acc" id="d2-hu2" data-task><button class="acc-btn" aria-expanded="false"><span class="acc-num">02</span><span class="acc-head"><span class="acc-title">Föreläsningsförfrågan i disken</span><span class="acc-desc">Sammansatt research: bakgrund, föreläsare, affisch · Copilot + valfri deep research-tjänst</span></span><span class="acc-icon" aria-hidden="true"></span></button>
             <div class="acc-panel"><div class="acc-inner"><div class="acc-content">
               <div class="scenario"><span class="pill">Scenario</span><p>Du sitter i informationsdisken. En låntagare kommer fram och är intresserad av <strong>högerextremism</strong> – hur det högerextrema våldet har utvecklats i Sverige sedan millennieskiftet – och undrar om biblioteket kan arrangera en föreläsningskväll om det. Din uppgift: ta reda på vad som faktiskt gäller/hänt, och hitta en tänkbar föreläsare.</p></div>
               <div class="callout plain"><p>Känns ämnet inte bekvämt? Välj då ett eget – till exempel ett lokalhistoriskt ämne, eller ett annat aktuellt samhällsämne som faktiskt dykt upp i disken på sistone.</p></div>
@@ -940,7 +982,7 @@
       </div>
     </div>
 
-    <div class="block">
+    <div class="block" id="d3-klassificering" data-task>
       <div class="block-rail"><div class="block-rail-inner" data-reveal="left">
         <div class="block-kicker">Workshop · grupper om 2–3 personer</div>
         <h3 class="block-title">Informations&shy;klassificering</h3>
@@ -1107,7 +1149,7 @@
         <h3 class="block-title">Den fejkade tipspromenaden</h3>
       </div></div>
       <div class="block-body stagger">
-        <div class="acc" id="d3-fejka"><button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-head"><span class="acc-title">Fejka ditt eget bibliotek</span><span class="acc-desc">Här gör du aktivitet 3 själv</span></span><span class="acc-icon" aria-hidden="true"></span></button>
+        <div class="acc" id="d3-fejka" data-task><button class="acc-btn" aria-expanded="false"><span class="acc-num">01</span><span class="acc-head"><span class="acc-title">Fejka ditt eget bibliotek</span><span class="acc-desc">Här gör du aktivitet 3 själv</span></span><span class="acc-icon" aria-hidden="true"></span></button>
           <div class="acc-panel"><div class="acc-inner"><div class="acc-content">
             <p>Här gör du aktivitet 3 själv. Ni behöver en bild på er biblioteksmiljö, utan människor och utan varumärken.</p>
             <ul class="step-list">
@@ -1123,7 +1165,7 @@
       </div>
     </div>
 
-    <div class="block">
+    <div class="block" id="d3-notebook" data-task>
       <div class="block-rail"><div class="block-rail-inner" data-reveal="left">
         <div class="block-kicker">På egen hand</div>
         <h3 class="block-title">Hemuppgift – Skapa din egen notebook</h3>
@@ -1356,6 +1398,17 @@
     <a class="btn primary" data-lb-pdf href="#" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Ladda ner PDF</a>
     <a class="btn" data-lb-jpg href="#" download>Bild (JPG)</a>
     <button class="btn" type="button" data-lb-close>Stäng</button>
+  </div>
+</dialog>
+
+<dialog class="medal-dialog" id="medal" aria-labelledby="medal-titel" aria-describedby="medal-text">
+  <div class="medal-card">
+    <div class="confetti" aria-hidden="true"></div>
+    <svg class="medal-art" viewBox="0 0 160 200" aria-hidden="true"><use href="#medalj"/></svg>
+    <span class="pill">Alla uppgifter klara · 100 %</span>
+    <h2 class="medal-title" id="medal-titel">Grattis!</h2>
+    <p id="medal-text">Du har gjort alla workshopövningar och hemuppgifter i <em>AI i folkbibliotekets praktik</em>. Som belöning får du medaljen <strong>Fullfjädrad AI-folkbildare</strong>. Den finns kvar under Dina framsteg högst upp på sidan.</p>
+    <button class="btn primary" type="button" data-medal-close>Tack!</button>
   </div>
 </dialog>
 

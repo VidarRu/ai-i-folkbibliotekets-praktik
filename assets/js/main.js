@@ -1,5 +1,6 @@
 /* AI i folkbibliotekets praktik – interaktion
-   Startsidan med lösenord, utfällning, scrollanimationer och videospelare.
+   Startsidan med lösenord, utfällning, scrollanimationer, videospelare
+   och bockar för uppgifterna med framstegsmätare och medalj.
    Lösenordet är en enkel spärr för besökare – inget riktigt skydd, eftersom
    sidan och materialet ligger öppet på GitHub. */
 (function () {
@@ -226,6 +227,135 @@
       v.replaceChild(f, btn);
     });
   });
+
+  /* ── Uppgifter: bocka av, se framstegen och få en medalj ───────── */
+  /* Workshops och hemuppgifter har data-task. Bockarna sparas bara i
+     den här webbläsaren (localStorage) och syns inte för någon annan. */
+  var TASKS_KEY = 'aifp-uppgifter';
+  var tasks = Array.prototype.slice.call(document.querySelectorAll('[data-task][id]'));
+  var tasksPanel = document.getElementById('framsteg');
+  var navRing = document.querySelector('.nav-progress');
+  var medal = document.getElementById('medal');
+  var medalBtn = document.querySelector('[data-medal-open]');
+  var done = {};
+  try {
+    var saved = JSON.parse(localStorage.getItem(TASKS_KEY));
+    if (Array.isArray(saved)) saved.forEach(function (id) { done[id] = true; });
+  } catch (e) { /* privat läge eller trasigt värde */ }
+
+  function saveTasks() {
+    try { localStorage.setItem(TASKS_KEY, JSON.stringify(Object.keys(done))); } catch (e) { /* privat läge */ }
+  }
+
+  function showMedal() {
+    if (!medal || typeof medal.showModal !== 'function' || medal.open) return;
+    var confetti = medal.querySelector('.confetti');
+    confetti.textContent = '';
+    if (!reduceMotion) {
+      var colors = ['var(--c-del1)', 'var(--c-del2)', 'var(--c-del3)', 'var(--c-bonus)', 'var(--c-res)', '#f2c14e'];
+      for (var i = 0; i < 46; i++) {
+        var bit = document.createElement('i');
+        bit.style.setProperty('--x', (Math.random() * 100).toFixed(1) + '%');
+        bit.style.setProperty('--dx', ((Math.random() - 0.5) * 8).toFixed(1) + 'rem');
+        bit.style.setProperty('--r', Math.round((Math.random() - 0.5) * 1080) + 'deg');
+        bit.style.setProperty('--t', (2.2 + Math.random() * 1.8).toFixed(2) + 's');
+        bit.style.setProperty('--d', (Math.random() * 0.8).toFixed(2) + 's');
+        bit.style.setProperty('--c', colors[i % colors.length]);
+        confetti.appendChild(bit);
+      }
+    }
+    medal.showModal();
+  }
+
+  function updateTasks(justChecked) {
+    var count = 0, perPart = {};
+    tasks.forEach(function (el) {
+      var part = el.closest('[data-part]');
+      var key = part ? part.getAttribute('data-part') : '';
+      var p = perPart[key] || (perPart[key] = { done: 0, total: 0 });
+      var isDone = !!done[el.id];
+      p.total++;
+      if (isDone) { count++; p.done++; }
+      el.classList.toggle('is-done', isDone);
+      var sr = el.querySelector(':scope > .acc-btn .task-sr');
+      if (sr) sr.textContent = isDone ? ' (genomförd)' : '';
+      var row = document.querySelector('tr[data-open="' + el.id + '"]');
+      if (row) row.classList.toggle('is-done', isDone);
+    });
+    var total = tasks.length;
+    var pct = total ? Math.floor(count / total * 100) : 0;
+    var complete = total > 0 && count === total;
+
+    if (navRing) {
+      navRing.style.setProperty('--p', pct);
+      navRing.querySelector('.np-pct').textContent = pct;
+      navRing.setAttribute('aria-label', 'Dina framsteg: ' + pct + ' procent av uppgifterna genomförda');
+      navRing.classList.toggle('complete', complete);
+    }
+    if (tasksPanel) {
+      tasksPanel.querySelector('[data-tp-pct]').textContent = pct + ' %';
+      tasksPanel.querySelector('[data-tp-count]').textContent = count + ' av ' + total;
+      var bar = tasksPanel.querySelector('.tp-bar');
+      bar.style.setProperty('--p', pct);
+      bar.setAttribute('aria-valuenow', pct);
+      tasksPanel.querySelectorAll('[data-tp-part]').forEach(function (span) {
+        var p = perPart[span.getAttribute('data-tp-part')] || { done: 0, total: 0 };
+        span.textContent = p.done + '/' + p.total;
+        span.parentNode.classList.toggle('full', p.total > 0 && p.done === p.total);
+      });
+    }
+    if (medalBtn) {
+      medalBtn.disabled = !complete;
+      medalBtn.querySelector('[data-medal-label]').textContent = complete
+        ? 'Fullfjädrad AI-folkbildare – visa medaljen'
+        : 'Låst – gör alla uppgifter för att få medaljen';
+    }
+    // Grattisrutan visas när den sista bocken sätts, inte vid sidladdning
+    if (complete && justChecked) setTimeout(showMedal, reduceMotion ? 0 : 450);
+  }
+
+  var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg>';
+  tasks.forEach(function (el) {
+    var host = el.classList.contains('acc')
+      ? el.querySelector(':scope > .acc-panel .acc-content')
+      : el.querySelector('.block-body');
+    if (!host) return;
+    var label = document.createElement('label');
+    label.className = 'task-done';
+    label.innerHTML = '<input type="checkbox"><span class="task-box" aria-hidden="true">' + checkSvg + '</span><span>Uppgiften genomförd</span>';
+    var input = label.querySelector('input');
+    input.checked = !!done[el.id];
+    input.addEventListener('change', function () {
+      if (input.checked) done[el.id] = true; else delete done[el.id];
+      saveTasks();
+      updateTasks(input.checked);
+    });
+    host.appendChild(label);
+    var head = el.querySelector(':scope > .acc-btn .acc-head');
+    if (head) {
+      var sr = document.createElement('span');
+      sr.className = 'sr-only task-sr';
+      head.appendChild(sr);
+    }
+  });
+
+  if (medalBtn) medalBtn.addEventListener('click', showMedal);
+  if (medal) {
+    medal.addEventListener('click', function (e) {
+      if (e.target === medal || e.target.hasAttribute('data-medal-close')) medal.close();
+    });
+  }
+  var resetBtn = document.querySelector('[data-tp-reset]');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function () {
+      if (!window.confirm('Vill du nollställa dina framsteg? Alla bockar tas bort.')) return;
+      done = {};
+      saveTasks();
+      document.querySelectorAll('.task-done input').forEach(function (i) { i.checked = false; });
+      updateTasks(false);
+    });
+  }
+  updateTasks(false);
 
   /* ── Startsida med lösenord ────────────────────────────────────── */
   var GATE_HASH = 'd55beaabcb5bffd94034be5d3eb1223dc3f27d10f0935bd654f09aadda3fcdc5';
